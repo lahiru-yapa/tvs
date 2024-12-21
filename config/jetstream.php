@@ -77,5 +77,8 @@ return [
     */
 
     'profile_photo_disk' => 'public',
+    'logout' => [
+        'redirect' => '/login', // Redirect to the login page after logout
+    ],
 
 ];

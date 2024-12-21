@@ -55,8 +55,15 @@
                     <li><a href="#" class="waves-effect"><i class="fa fa-undo" aria-hidden="true"></i> Backup Data</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="#" class="ho-dr-con-last waves-effect"><i class="fa fa-sign-in" aria-hidden="true"></i> Logout</a>
-                    </li>
+                    <li>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+    <a href="#" class="ho-dr-con-last waves-effect" 
+       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <i class="fa fa-sign-in" aria-hidden="true"></i> Logout
+    </a>
+</li>
                 </ul>
             </div>
         </div>
