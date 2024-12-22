@@ -32,9 +32,19 @@
                         <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-user" aria-hidden="true"></i> Users</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="user-all.html">All Users</a>
+                                <li><a href="{{ route('alluser') }}">All Users</a></li>
                                     </li>
-                                    <li><a href="user-add.html">Add New user</a>
+                                    <li><a href="{{ route('adduser') }}">Add New user</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-user" aria-hidden="true"></i> Shopes</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                <li><a href="{{ route('allshopes') }}">All Shopes</a></li>
+                                    </li>
+                                    <li><a href="{{ route('addshopes') }}">Add Shopes</a>
                                     </li>
                                 </ul>
                             </div>
