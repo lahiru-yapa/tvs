@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 @include('includes.header')
 
 <body>
@@ -11,7 +10,19 @@
     <div class="container-fluid sb2">
         <div class="row">
             <div class="sb2-1">
-            @include('includes.sidebar')
+                <!--== USER INFO ==-->
+                <div class="sb2-12">
+                    <ul>
+                        <li><img src="images/placeholder.jpg" alt="">
+                        </li>
+                        <li>
+                            <h5>Sanjeewa Motors <span> Godakawela</span></h5>
+                        </li>
+                        <li></li>
+                    </ul>
+                </div>
+                <!--== LEFT MENU ==-->
+                @include('includes.sidebar')
             </div>
             <div class="sb2-2">
                 <div class="sb2-2-2">
@@ -27,59 +38,64 @@
                         <div class="col-md-12">
                             <div class="box-inn-sp">
                                 <div class="inn-title">
-                                    <h4>Add New User</h4>
+                                    <h4>Edit User Details</h4>
                                     <p>Stock Main Where Houses The Right Way To Start A Short Break Holiday</p>
                                 </div>
                                 <div class="tab-inn">
-                                <form action="{{ route('user.store') }}" method="POST">
-                                @csrf
+                                    <form>
                                         <div class="row">
                                             <div class="input-field col s6">
-                                                <input name="first_name" type="text" class="validate">
+                                                <input id="first_name" type="text" value="Marsha" class="validate">
                                                 <label for="first_name">First Name</label>
                                             </div>
-                                         
                                             <div class="input-field col s6">
-                                                <input name="role" type="text" class="validate">
-                                                <label for="role">role</label>
+                                                <input id="last_name" type="text" value="Hogen" class="validate">
+                                                <label for="last_name">Last Name</label>
                                             </div>
-
                                         </div>
                                         <div class="row">
                                             <div class="input-field col s6">
-                                                <input name="phone" type="number" class="validate">
+                                                <input id="phone" type="text" value="+01 1234 4654" class="validate">
                                                 <label for="phone">Mobile</label>
                                             </div>
                                             <div class="input-field col s6">
-                                                <input name="email" type="email" class="validate">
-                                                <label for="email">email</label>
+                                                <input id="cphone" type="text" value="+01 6541 32145" class="validate">
+                                                <label for="cphone">Phone</label>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="input-field col s6">
-                                                <input name="city" type="text" class="validate">
-                                                <label for="city">address </label>
+                                                <input id="city" type="text" value="Illunois" class="validate">
+                                                <label for="city">City</label>
                                             </div>
                                             <div class="input-field col s6">
-                                                <input name="credit_limit" type="text" class="validate">
-                                                <label for="city">credit_limit </label>
+                                                <input id="country" type="text" value="United States" class="validate">
+                                                <label for="country">Country</label>
                                             </div>
-                                            
                                         </div>
                                         <div class="row">
                                             <div class="input-field col s6">
-                                                <input name="password" type="password" class="validate">
+                                                <input id="password" type="password" value="aksdjfhasdf" class="validate">
                                                 <label for="password">Password</label>
                                             </div>
                                             <div class="input-field col s6">
-                                                <input name="password1" type="password" class="validate">
+                                                <input id="password1" type="password" value="asdfaefrerfg" class="validate">
                                                 <label for="password1">Confirm Password</label>
                                             </div>
                                         </div>
-                                      
                                         <div class="row">
                                             <div class="input-field col s12">
-                                                <button type="submit" class="waves-effect waves-light btn-large">Submit</button>
+                                                <input id="email" type="email" value="marshahi@mail.com" class="validate">
+                                                <label for="email">Email</label>
+                                            </div>
+                                            <div class="input-field col s12">
+                                                <input id="email1" type="email" value="marshahi@mail.com" class="validate">
+                                                <label for="email1">Alternate Email</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12">
+                                                <input type="submit" class="waves-effect waves-light btn-large">
                                             </div>
                                         </div>
                                     </form>
@@ -111,6 +127,7 @@
         </div>
     </section>
 
+    <!--======== SCRIPT FILES =========-->
     @include('includes.js')
 </body>
 

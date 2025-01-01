@@ -54,31 +54,28 @@
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>User</th>
-                                                    <th>Name</th>
-                                                    <th>Phone</th>
+                                                    <th>name</th>
+                                                    <th>address</th>
                                                     <th>Email</th>
-                                                    <th>Country</th>
-                                                    <th>Inventorys</th>
-                                                    <th>View</th>
+                                                    <th>role</th>
+                                                    <th>credit_limit</th>
                                                     <th>Edit</th>
                                                     <th>Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach($users as $user)
                                                 <tr>
-                                                    <td><span class="list-img"><img src="images/user/1.png" alt=""></span>
+                                                    <td>{{ $user->name }}
                                                     </td>
-                                                    <td><a href="#"><span class="list-enq-name">Marsha Hogan</span><span class="list-enq-city">Illunois, United States</span></a>
+                                                    <td>{{ $user->address }}
                                                     </td>
-                                                    <td>+01 3214 6522</td>
-                                                    <td>chadengle@dummy.com</td>
-                                                    <td>Godakawela</td>
+                                                    <td>{{ $user->email }}</td>
+                                                    <td>{{ $user->role }}</td>
+                                                    <td>{{ $user->credit_limit }}</td>
+        
                                                     <td>
-                                                        <span class="label label-primary">02</span>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-view.html"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                    <a href="{{ route('users.edit', $user->id) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                                     </td>
                                                     <td>
                                                         <a href="user-edit.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -86,217 +83,8 @@
                                                     <td>
                                                         <a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                                     </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="list-img"><img src="images/user/2.png" alt=""></span>
-                                                    </td>
-                                                    <td><a href="#"><span class="list-enq-name">Marsha Hogan</span><span class="list-enq-city">Illunois, United States</span></a>
-                                                    </td>
-                                                    <td>+01 3214 6522</td>
-                                                    <td>chadengle@dummy.com</td>
-                                                    <td>Godakawela</td>
-                                                    <td>
-                                                        <span class="label label-primary">02</span>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-view.html"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-edit.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="list-img"><img src="images/user/3.png" alt=""></span>
-                                                    </td>
-                                                    <td><a href="#"><span class="list-enq-name">Marsha Hogan</span><span class="list-enq-city">Illunois, United States</span></a>
-                                                    </td>
-                                                    <td>+01 3214 6522</td>
-                                                    <td>chadengle@dummy.com</td>
-                                                    <td>Godakawela</td>
-                                                    <td>
-                                                        <span class="label label-primary">02</span>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-view.html"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-edit.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="list-img"><img src="images/user/4.png" alt=""></span>
-                                                    </td>
-                                                    <td><a href="#"><span class="list-enq-name">Marsha Hogan</span><span class="list-enq-city">Illunois, United States</span></a>
-                                                    </td>
-                                                    <td>+01 3214 6522</td>
-                                                    <td>chadengle@dummy.com</td>
-                                                    <td>Godakawela</td>
-                                                    <td>
-                                                        <span class="label label-primary">02</span>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-view.html"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-edit.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="list-img"><img src="images/user/5.png" alt=""></span>
-                                                    </td>
-                                                    <td><a href="#"><span class="list-enq-name">Marsha Hogan</span><span class="list-enq-city">Illunois, United States</span></a>
-                                                    </td>
-                                                    <td>+01 3214 6522</td>
-                                                    <td>chadengle@dummy.com</td>
-                                                    <td>Godakawela</td>
-                                                    <td>
-                                                        <span class="label label-primary">02</span>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-view.html"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-edit.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="list-img"><img src="images/user/6.png" alt=""></span>
-                                                    </td>
-                                                    <td><a href="#"><span class="list-enq-name">Marsha Hogan</span><span class="list-enq-city">Illunois, United States</span></a>
-                                                    </td>
-                                                    <td>+01 3214 6522</td>
-                                                    <td>chadengle@dummy.com</td>
-                                                    <td>Godakawela</td>
-                                                    <td>
-                                                        <span class="label label-primary">02</span>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-view.html"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-edit.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="list-img"><img src="images/user/1.png" alt=""></span>
-                                                    </td>
-                                                    <td><a href="#"><span class="list-enq-name">Marsha Hogan</span><span class="list-enq-city">Illunois, United States</span></a>
-                                                    </td>
-                                                    <td>+01 3214 6522</td>
-                                                    <td>chadengle@dummy.com</td>
-                                                    <td>Godakawela</td>
-                                                    <td>
-                                                        <span class="label label-primary">02</span>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-view.html"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-edit.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="list-img"><img src="images/user/2.png" alt=""></span>
-                                                    </td>
-                                                    <td><a href="#"><span class="list-enq-name">Marsha Hogan</span><span class="list-enq-city">Illunois, United States</span></a>
-                                                    </td>
-                                                    <td>+01 3214 6522</td>
-                                                    <td>chadengle@dummy.com</td>
-                                                    <td>Godakawela</td>
-                                                    <td>
-                                                        <span class="label label-primary">02</span>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-view.html"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-edit.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="list-img"><img src="images/user/1.png" alt=""></span>
-                                                    </td>
-                                                    <td><a href="#"><span class="list-enq-name">Marsha Hogan</span><span class="list-enq-city">Illunois, United States</span></a>
-                                                    </td>
-                                                    <td>+01 3214 6522</td>
-                                                    <td>chadengle@dummy.com</td>
-                                                    <td>Godakawela</td>
-                                                    <td>
-                                                        <span class="label label-primary">02</span>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-view.html"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-edit.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="list-img"><img src="images/user/3.png" alt=""></span>
-                                                    </td>
-                                                    <td><a href="#"><span class="list-enq-name">Marsha Hogan</span><span class="list-enq-city">Illunois, United States</span></a>
-                                                    </td>
-                                                    <td>+01 3214 6522</td>
-                                                    <td>chadengle@dummy.com</td>
-                                                    <td>Godakawela</td>
-                                                    <td>
-                                                        <span class="label label-primary">02</span>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-view.html"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-edit.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="list-img"><img src="images/user/4.png" alt=""></span>
-                                                    </td>
-                                                    <td><a href="#"><span class="list-enq-name">Marsha Hogan</span><span class="list-enq-city">Illunois, United States</span></a>
-                                                    </td>
-                                                    <td>+01 3214 6522</td>
-                                                    <td>chadengle@dummy.com</td>
-                                                    <td>Godakawela</td>
-                                                    <td>
-                                                        <span class="label label-primary">02</span>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-view.html"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-edit.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                </tr>
+                                                </tr>  
+                                                @endforeach                                            
                                             </tbody>
                                         </table>
                                     </div>

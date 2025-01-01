@@ -27,15 +27,16 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::get('/all-user', [UserController::class, 'allUsers'])->name('alluser');
-
     Route::get('/add-user', [UserController::class, 'adduser'])->name('adduser');
+    Route::post('/user', [UserController::class, 'store'])->name('user.store');
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
 
+    
     Route::get('/all-shopes', [ShopesController::class, 'allshopes'])->name('allshopes');
 
     Route::get('/add-shopes', [ShopesController::class, 'addshopes'])->name('addshopes');
     Route::post('/shops', [ShopesController::class, 'store'])->name('shops.store');
 });
-
 
 
 Route::get('/', function () {
