@@ -75,14 +75,12 @@
                                                     <td>{{ $user->credit_limit }}</td>
         
                                                     <td>
-                                                    <a href="{{ route('users.edit', $user->id) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                    <a href="{{ route('users.edit', $user->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                     </td>
                                                     <td>
-                                                        <a href="user-edit.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                        <a href="{{ route('users.delete',$user->id) }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                                     </td>
-                                                    <td>
-                                                        <a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                                    </td>
+                                                   
                                                 </tr>  
                                                 @endforeach                                            
                                             </tbody>
