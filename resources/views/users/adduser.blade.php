@@ -27,7 +27,7 @@
                         <div class="col-md-12">
                             <div class="box-inn-sp">
                                 <div class="inn-title">
-                                    <h4>Add New User</h4>
+                                    <h4>Add New Shop</h4>
                                     <p>Stock Main Where Houses The Right Way To Start A Short Break Holiday</p>
                                 </div>
                                 <div class="tab-inn">
