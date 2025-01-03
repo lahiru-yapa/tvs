@@ -27,7 +27,6 @@ class UserController extends Controller
       
         $request->validate([
             'first_name' => 'required|string|max:255',
-            'credit_limit' => 'required|string|max:255',
             'role' => 'required|string|max:255',
             'phone' => 'required|numeric|digits_between:10,15',
             'email' => 'required|email|max:255',
@@ -64,12 +63,10 @@ class UserController extends Controller
     
         $request->validate([
             'first_name' => 'required|string|max:255',
-            'credit_limit' => 'required|string|max:255',
             'role' => 'required|string|max:255',
             'phone' => 'required|numeric|digits_between:10,15',
             'email' => 'required|email|max:255',
             'city' => 'required|string|max:255',
-            'password' => 'required|string|min:6|same:password1',
         ]);
    
     
@@ -77,15 +74,22 @@ class UserController extends Controller
 
         // Update the user details
         if ($user) {
-            $user->update([
+            $data = [
                 'name' => $request->first_name,
                 'phone' => $request->phone,
                 'address' => $request->city, // Updating address with `city`
                 'credit_limit' => $request->credit_limit,
                 'role' => $request->role,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
+            ];
+            
+            // Check if the password is set and not empty
+            if ($request->filled('password')) {
+                $data['password'] = Hash::make($request->password);
+            }
+            
+            // Update the user
+            $user->update($data); 
         } else {
             return response()->json(['message' => 'User not found'], 404);
         }
