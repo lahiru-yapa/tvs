@@ -5,65 +5,7 @@
 
 <body>
     <!--== MAIN CONTRAINER ==-->
-    <div class="container-fluid sb1">
-        <div class="row">
-            <!--== LOGO ==-->
-            <div class="col-md-2 col-sm-3 col-xs-6 sb1-1">
-                <a href="#" class="btn-close-menu"><i class="fa fa-times" aria-hidden="true"></i></a>
-                <a href="#" class="atab-menu"><i class="fa fa-bars tab-menu" aria-hidden="true"></i></a>
-                <a href="index.html" class="logo">Sanjeewa Motors
-                </a>
-            </div>
-            <!--== SEARCH ==-->
-            <div class="col-md-6 col-sm-6 mob-hide">
-                <form class="app-search">
-                    <input type="text" placeholder="Search..." class="form-control">
-                    <a href=""><i class="fa fa-search"></i></a>
-                </form>
-            </div>
-            <!--== NOTIFICATION ==-->
-            <div class="col-md-2 tab-hide">
-                <div class="top-not-cen">
-                    <a class='waves-effect btn-noti' href='#'><i class="fa fa-commenting-o" aria-hidden="true"></i><span>5</span></a>
-                    <a class='waves-effect btn-noti' href='#'><i class="fa fa-envelope-o" aria-hidden="true"></i><span>5</span></a>
-                    <a class='waves-effect btn-noti' href='#'><i class="fa fa-tag" aria-hidden="true"></i><span>5</span></a>
-                </div>
-            </div>
-            <!--== MY ACCCOUNT ==-->
-            <div class="col-md-2 col-sm-3 col-xs-6">
-                <!-- Dropdown Trigger -->
-                <a class='waves-effect dropdown-button top-user-pro' href='#' data-activates='top-menu'><img src="images/user/6.png" alt="" />
-                @if (auth()->check())
-                     {{ auth()->user()->name }}
-                @endif
-                <i class="fa fa-angle-down" aria-hidden="true"></i>
-                </a>
-
-                <!-- Dropdown Structure -->
-                <ul id='top-menu' class='dropdown-content top-menu-sty'>
-                    <li><a href="setting.html" class="waves-effect"><i class="fa fa-cogs" aria-hidden="true"></i>Admin Setting</a>
-                    </li>
-                    <li><a href="Inventory-all.html" class="waves-effect"><i class="fa fa-list-ul" aria-hidden="true"></i> Inventorys</a>
-                    </li>
-                    <li><a href="Main Where House-all.html" class="waves-effect"><i class="fa fa-building-o" aria-hidden="true"></i> Main Where Houses</a>
-                    </li>
-                    <li><a href="package-all.html" class="waves-effect"><i class="fa fa-umbrella" aria-hidden="true"></i> Reports </a>
-                    </li>
-                    <li><a href="event-all.html" class="waves-effect"><i class="fa fa-flag-checkered" aria-hidden="true"></i> Events</a>
-                    </li>
-                    <li><a href="offers.html" class="waves-effect"><i class="fa fa-tags" aria-hidden="true"></i> Offers</a>
-                    </li>
-                    <li><a href="user-add.html" class="waves-effect"><i class="fa fa-user-plus" aria-hidden="true"></i> Add New User</a>
-                    </li>
-                    <li><a href="#" class="waves-effect"><i class="fa fa-undo" aria-hidden="true"></i> Backup Data</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a href="#" class="ho-dr-con-last waves-effect"><i class="fa fa-sign-in" aria-hidden="true"></i> Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    @include('includes.topBar')
 
     <!--== BODY CONTNAINER ==-->
     <div class="container-fluid sb2">
@@ -111,40 +53,30 @@
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>User</th>
                                                     <th>Name</th>
                                                     <th>Phone</th>
-                                                    <th>Email</th>
-                                                    <th>Country</th>
-                                                    <th>Inventorys</th>
-                                                    <th>View</th>
+                                                    <th>Address</th>
+                                                    <th>Note</th>
                                                     <th>Edit</th>
                                                     <th>Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach($shops as $shop)
                                                 <tr>
-                                                    <td><span class="list-img"><img src="images/user/1.png" alt=""></span>
-                                                    </td>
-                                                    <td><a href="#"><span class="list-enq-name">Marsha Hogan</span><span class="list-enq-city">Illunois, United States</span></a>
-                                                    </td>
-                                                    <td>+01 3214 6522</td>
-                                                    <td>chadengle@dummy.com</td>
-                                                    <td>Godakawela</td>
+                                                   
+                                                <td>{{$shop->name}}</td>
+                                                    <td>{{$shop->phone}}</td>
+                                                    <td>{{$shop->address}}</td>
+                                                    <td>{{$shop->note}}</td>
                                                     <td>
-                                                        <span class="label label-primary">02</span>
+                                                    <a href="{{ route('shops.edit', $shop->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                     </td>
                                                     <td>
-                                                        <a href="user-view.html"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="user-edit.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                     <a href="{{ route('shop.delete',$shop->id) }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                                     </td>
                                                 </tr>
-                                               
+                                               @endforeach
                                             </tbody>
                                         </table>
                                     </div>

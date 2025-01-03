@@ -8,8 +8,8 @@ class ShopesController extends Controller
 {
     public function allshopes()
     {
-        return view('Shopes.allShopes');
-
+        $shops = Shop::where('delete_flag', 0)->get();
+        return view('Shopes.allShopes', compact('shops'));
     }
 
     public function addshopes()
@@ -43,4 +43,57 @@ class ShopesController extends Controller
         return redirect()->route('allshopes')->with('success', 'Shop created successfully!');
 
     }
+
+
+    public function edit($id)
+    {
+        $shop = Shop::findOrFail($id);
+        return view('Shopes.shopedit', compact('shop'));
+    }
+
+    public function editShopstore(Request $request)
+    {  
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'credit_limit' => 'required|string|max:255',
+            'phone' => 'required|numeric|digits_between:10,15',
+            'city' => 'required|string|max:255',
+        ]);
+   
+    
+        $user = Shop::find($request->shop_id); // Replace `user_id` with the actual field you're using
+
+        // Update the user details
+        if ($user) {
+            $user->update([
+                'name' => $request->first_name,
+                'phone' => $request->phone,
+                'address' => $request->city, // Updating address with `city`
+                'credit_limit' => $request->credit_limit,
+            ]);
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+      
+        return redirect()->route('allshopes')->with('success', 'Shop created successfully!');
+    }
+    
+    public function delete($id)
+    {
+        try {
+            // Find the user by ID
+            $shop = Shop::findOrFail($id);
+    
+            // Set delete_flag to 1
+            $shop->delete_flag = 1;
+            $shop->save();
+    
+            // Redirect back with success message
+            return redirect()->route('allshopes')->with('success', 'User flagged as deleted successfully!');
+        } catch (\Exception $e) {
+            // Handle exceptions (e.g., user not found)
+            return redirect()->route('allshopes')->with('error', 'User could not be flagged as deleted.');
+        }
+    }
+
 }

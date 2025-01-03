@@ -38,6 +38,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/all-shopes', [ShopesController::class, 'allshopes'])->name('allshopes');
         Route::get('/add-shopes', [ShopesController::class, 'addshopes'])->name('addshopes');
         Route::post('/shops', [ShopesController::class, 'store'])->name('shops.store');
+        Route::get('shops/{id}/edit', [ShopesController::class, 'edit'])->name('shops.edit');
+         Route::post('/shop/edit', [ShopesController::class, 'editShopstore'])->name('shop.editStore');
+         Route::get('/shop/delete/{id}', [ShopesController::class, 'delete'])->name('shop.delete');
+
     });
 
 });
