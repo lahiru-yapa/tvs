@@ -60,10 +60,7 @@
                                                 <input name="city" type="text" class="validate">
                                                 <label for="city">address </label>
                                             </div>
-                                            <div class="input-field col s6">
-                                                <input name="credit_limit" type="text" class="validate">
-                                                <label for="city">credit_limit </label>
-                                            </div>
+                                          
                                             
                                         </div>
                                         <div class="row">

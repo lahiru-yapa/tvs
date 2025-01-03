@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ShopesController;
+use App\Http\Controllers\SupplierController;
 
 
 /*
@@ -39,11 +40,19 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/add-shopes', [ShopesController::class, 'addshopes'])->name('addshopes');
         Route::post('/shops', [ShopesController::class, 'store'])->name('shops.store');
         Route::get('shops/{id}/edit', [ShopesController::class, 'edit'])->name('shops.edit');
-         Route::post('/shop/edit', [ShopesController::class, 'editShopstore'])->name('shop.editStore');
-         Route::get('/shop/delete/{id}', [ShopesController::class, 'delete'])->name('shop.delete');
+        Route::post('/shop/edit', [ShopesController::class, 'editShopstore'])->name('shop.editStore');
+        Route::get('/shop/delete/{id}', [ShopesController::class, 'delete'])->name('shop.delete');
+
+        Route::get('/all-suppliers', [SupplierController::class, 'allsuppliers'])->name('allsuppliers');
+        Route::get('/add-suppliers', [SupplierController::class, 'addsuppliers'])->name('addsuppliers');
+        Route::post('suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
+        Route::get('suppliers/{id}/edit', [SupplierController::class, 'edit'])->name('suppliers.edit');
+        Route::post('/suppliers/edit', [SupplierController::class, 'editSuppliers'])->name('suppliers.editStore');
+        Route::get('/suppliers/delete/{id}', [SupplierController::class, 'delete'])->name('suppliers.delete');
+        Route::get('suppliers/{id}/view', [SupplierController::class, 'view'])->name('suppliers.view');
 
     });
-
+    
 });
  
 Route::get('/', function () {
