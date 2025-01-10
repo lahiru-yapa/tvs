@@ -65,16 +65,12 @@
                             </div>
                         </li>
                         @endif
-                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-h-square" aria-hidden="true"></i> Main Where Houses</a>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-h-square" aria-hidden="true"></i> Products</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="Main Where House-all.html">All Main Where Houses</a>
+                                    <li><a href="{{ route('allproduct') }}">All Products</a>
                                     </li>
-                                    <li><a href="Main Where House-add.html">Add New Main Where House</a>
-                                    </li>
-                                    <li><a href="Main Where House-room-type-all.html">Room Type</a>
-                                    </li>
-                                    <li><a href="Main Where House-room-type-add.html">Add Room Type</a>
+                                    <li><a href="{{ route('addproduct') }}">Add Products</a>
                                     </li>
                                 </ul>
                             </div>

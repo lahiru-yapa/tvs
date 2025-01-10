@@ -28,11 +28,10 @@
                         <div class="col-md-12">
                             <div class="box-inn-sp">
                                 <div class="inn-title">
-                                    <h4>User Details</h4>
-                                  
-
+                                    <h4>Product Details</h4>
+                                 
                                     <!-- Dropdown Structure -->
-
+  
                                 </div>
                                 <div class="tab-inn">
                                     <div class="table-responsive table-desi">
@@ -40,26 +39,34 @@
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
-                                                    <th>Phone</th>
-                                                    <th>Address</th>
-                                                    <th>Note</th>
+                                                    <th>Sku</th>
+                                                    <th>Description</th>
+                                                    <th>Price</th>
+                                                    <th>Stock</th>
+                                                    <th>Category</th>
                                                     <th>Edit</th>
+                                                    <th>View</th>
                                                     <th>Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($shops as $shop)
+                                                @foreach($products as $product)
                                                 <tr>
-                                                   
-                                                <td>{{$shop->name}}</td>
-                                                    <td>{{$shop->phone}}</td>
-                                                    <td>{{$shop->address}}</td>
-                                                    <td>{{$shop->note}}</td>
+                                               
+                                                <td>{{$product->name}}</td>
+                                                    <td>{{$product->sku}}</td>
+                                                    <td>{{$product->description}}</td>
+                                                    <td>{{$product->price}}</td>
+                                                    <td>{{$product->stock}}</td>
+                                                    <td>{{$product->category}}</td>
                                                     <td>
-                                                    <a href="{{ route('shops.edit', $shop->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                    <a href="{{ route('product.edit', $product->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                     </td>
                                                     <td>
-                                                     <a href="{{ route('shop.delete',$shop->id) }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                    <a href="{{ route('product.view', $product->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                    </td>
+                                                    <td>
+                                                     <a href="{{ route('product.delete',$product->id) }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                                     </td>
                                                 </tr>
                                                @endforeach
