@@ -29,7 +29,21 @@
                             <div class="box-inn-sp">
                                 <div class="inn-title">
                                     <h4>User Details</h4>
-                                  
+                                    <p>Stock Main Where Houses The Right Way To Start A Short Break Holiday</p>
+                                    <a class="dropdown-button drop-down-meta" href="#" data-activates="dr-users"><i class="material-icons">more_vert</i></a>
+                                    <ul id="dr-users" class="dropdown-content">
+                                        <li><a href="user-add.html">Add New</a>
+                                        </li>
+                                        <li><a href="user-edit.html">Edit</a>
+                                        </li>
+                                        <li><a href="#!">Update</a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li><a href="#!"><i class="material-icons">delete</i>Delete</a>
+                                        </li>
+                                        <li><a href="user-view.html"><i class="material-icons">subject</i>View All</a>
+                                        </li>
+                                    </ul>
 
                                     <!-- Dropdown Structure -->
 
@@ -44,22 +58,26 @@
                                                     <th>Address</th>
                                                     <th>Note</th>
                                                     <th>Edit</th>
+                                                    <th>View</th>
                                                     <th>Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($shops as $shop)
+                                                @foreach($supllier as $supllier)
                                                 <tr>
                                                    
-                                                <td>{{$shop->name}}</td>
-                                                    <td>{{$shop->phone}}</td>
-                                                    <td>{{$shop->address}}</td>
-                                                    <td>{{$shop->note}}</td>
+                                                <td>{{$supllier->name}}</td>
+                                                    <td>{{$supllier->phone}}</td>
+                                                    <td>{{$supllier->address}}</td>
+                                                    <td>{{$supllier->note}}</td>
                                                     <td>
-                                                    <a href="{{ route('shops.edit', $shop->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                    <a href="{{ route('suppliers.edit', $supllier->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                     </td>
                                                     <td>
-                                                     <a href="{{ route('shop.delete',$shop->id) }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                    <a href="{{ route('suppliers.view', $supllier->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                    </td>
+                                                    <td>
+                                                     <a href="{{ route('suppliers.delete',$supllier->id) }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                                     </td>
                                                 </tr>
                                                @endforeach

@@ -18,6 +18,12 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->unique()->nullable();
             $table->text('address')->nullable();
+<<<<<<< HEAD
+=======
+            $table->text('note')->nullable();
+            $table->decimal('credit_limit', 10, 2)->default(0.00); // Maximum credit limit for the shop
+            $table->decimal('current_balance', 10, 2)->default(0.00); // Remaining balance
+>>>>>>> f9bb99cff23205477bb448eaab8dffd686f7a1cc
             $table->timestamps();
             $table->boolean('delete_flag')->default(0);
         });

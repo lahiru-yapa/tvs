@@ -17,12 +17,13 @@ return new class extends Migration
             $table->string('phone'); // Name of the shop
             $table->text('address')->nullable(); // Address of the shop
             $table->text('note')->nullable();
+            $table->text('delete_flag')->default(0);// Address of the shop
             $table->decimal('credit_limit', 10, 2); // Maximum credit limit for the shop
             $table->decimal('current_balance', 10, 2)->default(0.00); // Remaining balance
             $table->timestamps(); // created_at and updated_at timestamps
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */

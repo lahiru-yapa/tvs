@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ShopesController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ProductController;
 
 
 /*
@@ -39,11 +41,27 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/add-shopes', [ShopesController::class, 'addshopes'])->name('addshopes');
         Route::post('/shops', [ShopesController::class, 'store'])->name('shops.store');
         Route::get('shops/{id}/edit', [ShopesController::class, 'edit'])->name('shops.edit');
-         Route::post('/shop/edit', [ShopesController::class, 'editShopstore'])->name('shop.editStore');
-         Route::get('/shop/delete/{id}', [ShopesController::class, 'delete'])->name('shop.delete');
+        Route::post('/shop/edit', [ShopesController::class, 'editShopstore'])->name('shop.editStore');
+        Route::get('/shop/delete/{id}', [ShopesController::class, 'delete'])->name('shop.delete');
 
+        Route::get('/all-suppliers', [SupplierController::class, 'allsuppliers'])->name('allsuppliers');
+        Route::get('/add-suppliers', [SupplierController::class, 'addsuppliers'])->name('addsuppliers');
+        Route::post('suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
+        Route::get('suppliers/{id}/edit', [SupplierController::class, 'edit'])->name('suppliers.edit');
+        Route::post('/suppliers/edit', [SupplierController::class, 'editSuppliers'])->name('suppliers.editStore');
+        Route::get('/suppliers/delete/{id}', [SupplierController::class, 'delete'])->name('suppliers.delete');
+        Route::get('suppliers/{id}/view', [SupplierController::class, 'view'])->name('suppliers.view');
+
+
+        Route::get('/all-product', [ProductController::class, 'allproducts'])->name('allproduct');
+        Route::get('/add-product', [ProductController::class, 'addproduct'])->name('addproduct');
+        Route::post('product', [ProductController::class, 'store'])->name('product.store');
+        Route::get('product/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
+        Route::post('/product/edit', [ProductController::class, 'editproduct'])->name('product.editProduct');
+        Route::get('/product/delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
+        Route::get('product/{id}/view', [ProductController::class, 'view'])->name('product.view');
     });
-
+    
 });
  
 Route::get('/', function () {
