@@ -60,9 +60,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/product/edit', [ProductController::class, 'editproduct'])->name('product.editProduct');
         Route::get('/product/delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
         Route::get('product/{id}/view', [ProductController::class, 'view'])->name('product.view');
+
+
+        Route::get('/add-invoice', [ProductController::class, 'addinvoice'])->name('addinvoice');
     });
     
 });
+
  
 Route::get('/', function () {
     return redirect('/login');

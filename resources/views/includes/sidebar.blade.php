@@ -75,12 +75,12 @@
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-picture-o" aria-hidden="true"></i> Sight Seeings</a>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-picture-o" aria-hidden="true"></i> Invoice</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="sight-see-all.html">-</a>
+                                    <li><a href="sight-see-all.html">All Invoice</a>
                                     </li>
-                                    <li><a href="sight-see-add.html">Add New Sight Seeing</a>
+                                    <li><a href="{{ route('addinvoice') }}">Add Invoice</a>
                                     </li>
                                 </ul>
                             </div>
