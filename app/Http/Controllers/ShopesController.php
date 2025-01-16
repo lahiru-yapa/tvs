@@ -17,6 +17,17 @@ class ShopesController extends Controller
         return view('Shopes.addShopes');
     }
     
+    public function getShopCreditLimit(Request $request)
+{
+ 
+    $shop = Shop::find($request->shop_id); // Adjust the model name if it's different
+    if ($shop) {
+        return response()->json(['credit_limit' => $shop->credit_limit]);
+    }
+    return response()->json(['error' => 'Shop not found'], 404);
+}
+
+
 
     public function store(Request $request)
     {
@@ -95,5 +106,19 @@ class ShopesController extends Controller
             return redirect()->route('allshopes')->with('error', 'User could not be flagged as deleted.');
         }
     }
+
+
+    public function getAverageDays(Request $request)
+{
+    $shopId = $request->query('shop_id');
+    $shop = Shop::find($shopId);
+
+    if (!$shop) {
+        return response()->json(['error' => 'Shop not found'], 404);
+    }
+
+    $averageDaysDifference = $shop->average_days_difference; // Accessor in the Shop model
+    return response()->json(['averageDaysDifference' => $averageDaysDifference]);
+}
 
 }

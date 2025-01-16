@@ -18,4 +18,37 @@ class Shop extends Model
         'note',
         'delete_flag',
     ];
+
+     // Define the relationship with invoices (assuming one-to-many relationship)
+     public function invoices()
+     {
+         return $this->hasMany(Invoice::class);
+     }
+ 
+     // Define the accessor to calculate the average days difference
+     public function getAverageDaysDifferenceAttribute()
+     {
+       
+         $invoices = $this->invoices;  // Get all invoices for the shop
+        
+         if ($invoices->isEmpty()) {
+             return 0;  // Return 0 if there are no invoices
+         }
+ 
+         $totalDays = 0;
+         $invoiceCount = 0;
+      
+         // Loop through invoices to calculate days difference
+         foreach ($invoices as $invoice) {
+             if ($invoice->invoice_date && $invoice->payment_date) {
+                 $daysDifference = Carbon::parse($invoice->payment_date)->diffInDays(Carbon::parse($invoice->invoice_date));
+                 $totalDays += $daysDifference;
+                 $invoiceCount++;
+             }
+         }
+   
+ 
+         // Calculate average days difference
+         return $invoiceCount > 0 ? $totalDays / $invoiceCount : 0;
+     }
 }
