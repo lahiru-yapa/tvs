@@ -77,7 +77,7 @@ class InvoiceController extends Controller
 
     public function storeInvoice(Request $request)
     {
-       
+       dd($request->all());
         // Validate the request
         $validatedData = $request->validate([
             'shop_id' => 'required|exists:shops,id',

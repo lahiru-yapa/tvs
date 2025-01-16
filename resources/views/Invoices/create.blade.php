@@ -64,7 +64,7 @@
                                             </div>
 
                                             <div class="input-field col s12 m4 l3">
-                                                <select name="payment_method">
+                                                <select name="payment_method" id="payment-method-select">
                                                     <option value="" disabled selected>-</option>
                                                     <option value="cash">Cash</option>
                                                     <option value="check">Check</option>
@@ -74,9 +74,61 @@
                                                 </select>
                                                 <label>Payment Method</label>
                                             </div>
-                                           
-                                        </div>
+                                            <div class="input-field col s12 m4 l3">
+                                                <select name="product" id="product">
+                                                    <option value="" disabled selected>-</option>
+                                                    @foreach($products as $item)
+                                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                                <label>Select Product</label>
+                                            </div>
 
+                                        </div>
+                                        <div class="row">
+                                            <!-- Hidden divs -->
+
+                                            <div class="input-field col s12 m4 l3" id="cash-div" style="display: none;">
+                                                    <input name="payment" type="text" class="validate">
+                                                    <label for="price">Cash payment amount</label>
+                                            </div>
+                                            <div class="input-field col s12 m4 l3" id="check-div"
+                                                style="display: none;">
+                                                <p>Check Payment Selected</p>
+                                            </div>
+                                            <div class="input-field col s12 m4 l3" id="online-payment-div"
+                                                style="display: none;">
+                                                <p>Online Payment Selected</p>
+                                            </div>
+                                        </div>
+                                        <script>
+                                        const paymentMethodSelect = document.getElementById(
+                                            'payment-method-select');
+                                        if (paymentMethodSelect) {
+                                            paymentMethodSelect.onchange = function() {
+                                                const selectedValue = this.value;
+                                                // Get all hidden divs
+                                                const cashDiv = document.getElementById('cash-div');
+                                                const checkDiv = document.getElementById('check-div');
+                                                const onlinePaymentDiv = document.getElementById(
+                                                    'online-payment-div');
+
+                                                // Hide all divs initially
+                                                cashDiv.style.display = 'none';
+                                                checkDiv.style.display = 'none';
+                                                onlinePaymentDiv.style.display = 'none';
+
+                                                // Show the div based on the selected payment method
+                                                if (selectedValue === 'cash') {
+                                                    cashDiv.style.display = 'block';
+                                                } else if (selectedValue === 'check') {
+                                                    checkDiv.style.display = 'block';
+                                                } else if (selectedValue === 'online_payment') {
+                                                    onlinePaymentDiv.style.display = 'block';
+                                                }
+                                            };
+                                        }
+                                        </script>
                                         <div class="row">
                                             <div class="input-field col s12 m4 l3">
                                                 <!-- col s12 for mobile, m4 for medium (tablet), l3 for large (desktop) -->
@@ -88,11 +140,7 @@
                                                     <!-- Suggestions will be dynamically added here -->
                                                 </datalist>
                                             </div>
-                                            <div class="input-field col s12 m4 l9">
-                                                <p id="error-message" style="display:none;">ghjkl</p>
-                                                <p style="text-align:center">ghjkl</p>
-                                                <p style="text-align:center">ghjkl</p>
-                                            </div>
+                                         
                                         </div>
                                         <input type="hidden" id="totalAmountInput" name="totalAmount" value="0.00">
                                         <div class="row">
