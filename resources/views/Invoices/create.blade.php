@@ -75,10 +75,10 @@
                                                 <label>Payment Method</label>
                                             </div>
                                             <div class="input-field col s12 m4 l3">
-                                                <select name="product" id="product">
+                                                <select name="product_name2" id="product_name2">
                                                     <option value="" disabled selected>-</option>
                                                     @foreach($products as $item)
-                                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                                    <option value="{{$item->name}}">{{$item->name}}</option>
                                                     @endforeach
                                                 </select>
                                                 <label>Select Product</label>
@@ -373,7 +373,7 @@
         });
 
         // Handle when user selects a product
-        $('#product_name').on('change', function() {
+        $('#product_name, #product_name2').on('change', function() {
             var selectedProductName = $(this).val(); // Get the selected product name
 
             // Fetch product details via AJAX
@@ -409,6 +409,7 @@
                         var selectedProducts = $('#selected-products').val() ? JSON.parse($(
                             '#selected-products').val()) : [];
                         selectedProducts.push({
+                            id: response.id,
                             name: response.name,
                             amount: response.amount,
                             image: response.image

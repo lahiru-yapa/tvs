@@ -64,7 +64,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/product/delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
         Route::get('product/{id}/view', [ProductController::class, 'view'])->name('product.view');
 
-
+        Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
         Route::get('/products/suggest', [InvoiceController::class, 'suggestProducts'])->name('products.suggest');
         Route::get('/products/details', [InvoiceController::class, 'getProductDetails'])->name('products.details');
         Route::post('/product/store', [InvoiceController::class, 'store'])->name('invoice.store');
