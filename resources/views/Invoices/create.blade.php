@@ -67,7 +67,7 @@
                                                 <select name="payment_method" id="payment-method-select">
                                                     <option value="" disabled selected>-</option>
                                                     <option value="cash">Cash</option>
-                                                    <option value="check">Check</option>
+                                                    <option value="check">Cheque</option>
                                                     <option value="online payment">Online payment</option>
                                                     <option value="credit">Credit</option>
                                                     <option value="multiple">Multiple</option>
@@ -95,7 +95,7 @@
                                             <div id="check-div" style="display: none;">
                                                 <div class="input-field col s12 m4 l3">
                                                     <input name="check_number" type="text" class="validate">
-                                                    <label for="price">Check Number</label>
+                                                    <label for="price">Cheque Number</label>
                                                 </div>
                                                 <div class="input-field col s12 m4 l3">
                                                 
@@ -111,7 +111,7 @@
                                              
                                                 <div class="input-field col s12 m4 l3">
                                                     <input name="payment" type="text" class="validate">
-                                                    <label for="price">Amount on Check</label>
+                                                    <label for="price">Amount on Cheque</label>
                                                 </div>
                                               
                                                 <div class="input-field col s12 m4 l3">
