@@ -38,5 +38,11 @@ public function invoiceProducts()
     return $this->hasMany(InvoiceProduct::class);
 }
 
+    // Relationship to Payment
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'invoice_id');
+    }
+    
 }
 

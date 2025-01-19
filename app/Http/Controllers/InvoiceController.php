@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Shop;
+use App\Models\Payment;
 use App\Models\Invoice; // Replace with your actual model
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -15,9 +16,9 @@ class InvoiceController extends Controller
     public function index()
     {
 
-        $invoices = Invoice::with('shop')->get();
+        $invoices = Invoice::with('shop')->paginate(2);
      
-        return view('invoices.viewInvoice', compact('invoices'));
+        return view('invoices.viewInvoice', compact('invoices')); 
     }
 
       /**
@@ -90,6 +91,14 @@ class InvoiceController extends Controller
     DB::beginTransaction(); // Start a database transaction
 
     try {
+          // Validate incoming data
+          $validatedData1 = $request->validate([
+            'check_number' => 'required|string',
+            'bank_name' => 'required|string',
+            'payment' => 'required|numeric',
+            'check_date' => 'required',
+        ]);
+      
         // Validate the request
         $validatedData = $request->validate([
             'shop_id' => 'required|exists:shops,id',
@@ -155,16 +164,20 @@ class InvoiceController extends Controller
                 'total' => $total,
             ]);
         }
+     
+Payment::create([
+    'invoice_id' => $invoice->id,
+    'amount' => $validatedData1['payment'], // Amount from the check details
+    'payment_date' => $validatedData1['check_date'], // Payment date
+    'payment_method' => $validatedData['payment_method'], // Payment method
+    'reference_number' => $validatedData1['check_number'], // Check number as reference
+]);
 
         DB::commit(); // Commit the transaction if all operations are successful
 
         return redirect()->route('invoice.index')->with('success', 'Invoice created successfully.');
     } catch (\Exception $e) {
         DB::rollBack(); // Rollback the transaction if any operation fails
-
-        // Optionally, log the error for debugging
-        Log::error('Invoice creation failed: ' . $e->getMessage());
-
         return redirect()->back()->with('error', 'An error occurred while creating the invoice. Please try again.');
     }
 }

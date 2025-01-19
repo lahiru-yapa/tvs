@@ -89,12 +89,36 @@
                                             <!-- Hidden divs -->
 
                                             <div class="input-field col s12 m4 l3" id="cash-div" style="display: none;">
-                                                    <input name="payment" type="text" class="validate">
-                                                    <label for="price">Cash payment amount</label>
+                                                <input name="payment" type="text" class="validate">
+                                                <label for="price">Cash payment amount</label>
                                             </div>
-                                            <div class="input-field col s12 m4 l3" id="check-div"
-                                                style="display: none;">
-                                                <p>Check Payment Selected</p>
+                                            <div id="check-div" style="display: none;">
+                                                <div class="input-field col s12 m4 l3">
+                                                    <input name="check_number" type="text" class="validate">
+                                                    <label for="price">Check Number</label>
+                                                </div>
+                                                <div class="input-field col s12 m4 l3">
+                                                
+                                                    <select name="bank_name" id="bank_name">
+                                                    <option value="" disabled selected>-</option>
+                                                    <option value="cash">Sampath</option>
+                                                    <option value="check">Commercial</option>
+                                                    <option value="online payment">Boc</option>
+                                                    <option value="credit">Peoples</option>
+                                                </select>
+                                                <label for="price">Bank Name</label>
+                                                </div>
+                                             
+                                                <div class="input-field col s12 m4 l3">
+                                                    <input name="payment" type="text" class="validate">
+                                                    <label for="price">Amount on Check</label>
+                                                </div>
+                                              
+                                                <div class="input-field col s12 m4 l3">
+                                                <input name="check_date" type="date" class="validate">
+
+                                                </div>
+                                           
                                             </div>
                                             <div class="input-field col s12 m4 l3" id="online-payment-div"
                                                 style="display: none;">
@@ -140,7 +164,7 @@
                                                     <!-- Suggestions will be dynamically added here -->
                                                 </datalist>
                                             </div>
-                                         
+
                                         </div>
                                         <input type="hidden" id="totalAmountInput" name="totalAmount" value="0.00">
                                         <div class="row">

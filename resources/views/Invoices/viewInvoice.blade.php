@@ -65,6 +65,10 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        <!-- Pagination Links -->
+<div class="d-flex justify-content-center">
+    {{ $invoices->links() }}
+</div>
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +79,16 @@
         </div>
     </div>
 
+<style>
+    nav a {
+    color: #271f1f !important;
+}
 
+.flex.items-center.justify-between{
+    color: #000000;
+    background-color: #f9f9f9
+}
+    </style>
     @include('includes.js')
 </body>
 
