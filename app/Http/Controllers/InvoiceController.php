@@ -34,13 +34,44 @@ class InvoiceController extends Controller
         return view('invoices.create', compact('shops', 'user', 'products'));
     }
 
+
+    public function handleAction(Request $request)
+{
+    $action = $request->input('action');
+    $invoiceId = $request->input('invoice_id');
+
+    switch ($action) {
+        case 'view':
+            return redirect()->route('invoices.show', $invoiceId);
+
+        case 'edit':
+            return redirect()->route('invoices.edit', $invoiceId);
+
+        case 'delete':
+            // Handle the delete action (e.g., confirm deletion or perform the delete)
+            Invoice::findOrFail($invoiceId)->delete();
+            return redirect()->route('invoices.index')->with('success', 'Invoice deleted successfully.');
+
+        default:
+            return redirect()->back()->with('error', 'Invalid action selected.');
+    }
+}
+
+
+    public function show($id)
+    {
+         // Eager load the invoice products and shop details along with the invoice
+         $invoice = Invoice::with(['invoiceProducts.product', 'shop'])->findOrFail($id);
+        return view('invoices.show', compact('invoice')); // Return the view for the invoice details
+    }
+
     // Suggest products based on search query
     public function suggestProducts(Request $request)
     {
         $query = $request->get('query');
         $products = Product::where('name', 'like', '%' . $query . '%')
-                           ->orWhere('sku', 'like', '%' . $query . '%')
-                           ->pluck('name'); // Or you can return more data like SKU
+        ->orWhere('sku', 'like', '%' . $query . '%')
+        ->pluck('stock', 'name');// Or you can return more data like SKU
         return response()->json($products);
     }
 
@@ -92,12 +123,12 @@ class InvoiceController extends Controller
 
     try {
           // Validate incoming data
-          $validatedData1 = $request->validate([
-            'check_number' => 'required|string',
-            'bank_name' => 'required|string',
-            'payment' => 'required|numeric',
-            'check_date' => 'required',
-        ]);
+        //   $validatedData1 = $request->validate([
+        //     'check_number' => 'required|string',
+        //     'bank_name' => 'required|string',
+        //     'payment' => 'required|numeric',
+        //     'check_date' => 'required',
+        // ]);
       
         // Validate the request
         $validatedData = $request->validate([
@@ -105,7 +136,6 @@ class InvoiceController extends Controller
             'payment_method' => 'required|string',
             'selected_products' => 'required|json', // Ensure it's valid JSON
             'counts' => 'required|array', // Ensure counts is an array
-            'payment' => 'required|numeric',
         ]);
 
         // Parse the selected products from JSON
@@ -138,7 +168,7 @@ class InvoiceController extends Controller
             'user_id' => auth()->user()->id,
             'invoice_number' => $invoiceNumber,
             'total_amount' => $request->totalAmount,
-            'paid_amount' => $request->payment,
+            'paid_amount' => 0,
             'paid_status' => $request->payment >= $request->totalAmount ? true : false,
             'due_date' => $dueDate,
             'invoice_date' => $invoiceDate,
@@ -165,13 +195,13 @@ class InvoiceController extends Controller
             ]);
         }
      
-Payment::create([
-    'invoice_id' => $invoice->id,
-    'amount' => $validatedData1['payment'], // Amount from the check details
-    'payment_date' => $validatedData1['check_date'], // Payment date
-    'payment_method' => $validatedData['payment_method'], // Payment method
-    'reference_number' => $validatedData1['check_number'], // Check number as reference
-]);
+// Payment::create([
+//     'invoice_id' => $invoice->id,
+//     'amount' => $validatedData1['payment'], // Amount from the check details
+//     'payment_date' => $validatedData1['check_date'], // Payment date
+//     'payment_method' => $validatedData['payment_method'], // Payment method
+//     'reference_number' => $validatedData1['check_number'], // Check number as reference
+// ]);
 
         DB::commit(); // Commit the transaction if all operations are successful
 

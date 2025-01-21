@@ -44,6 +44,7 @@
                                                     <th>paid_amount</th>
                                                     <th>due_date</th>
                                                     <th>paid_status</th>
+                                                    <th>actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -61,14 +62,28 @@
                                                         Unpaid
                                                         @endif
                                                     </td>
+                                                    <td>
+                                                        <form method="POST" action="{{ route('invoices.action') }}">
+                                                            @csrf
+                                                            <input type="hidden" name="invoice_id"
+                                                                value="{{ $item->id }}">
+                                                            <select name="action" onchange="this.form.submit()">
+                                                                <option value="">Select Action</option>
+                                                                <option value="view">View</option>
+                                                                <option value="edit">Edit</option>
+                                                                <option value="delete">Delete</option>
+                                                            </select>
+                                                        </form>
+                                                    </td>
+
                                                 </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
                                         <!-- Pagination Links -->
-<div class="d-flex justify-content-center">
-    {{ $invoices->links() }}
-</div>
+                                        <div class="d-flex justify-content-center">
+                                            {{ $invoices->links() }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -79,15 +94,15 @@
         </div>
     </div>
 
-<style>
+    <style>
     nav a {
-    color: #271f1f !important;
-}
+        color: #271f1f !important;
+    }
 
-.flex.items-center.justify-between{
-    color: #000000;
-    background-color: #f9f9f9
-}
+    .flex.items-center.justify-between {
+        color: #000000;
+        background-color: #f9f9f9
+    }
     </style>
     @include('includes.js')
 </body>

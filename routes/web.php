@@ -70,6 +70,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/product/store', [InvoiceController::class, 'store'])->name('invoice.store');
         Route::get('/add-invoice', [InvoiceController::class, 'addinvoice'])->name('addinvoice');
         Route::post('/invoice/store', [InvoiceController::class, 'storeInvoice'])->name('invoice.storeInvoice');
+        Route::post('/invoices/action', [InvoiceController::class, 'handleAction'])->name('invoices.action');
+        Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
+        Route::get('/invoices/{id}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
+        
     });
     
 });

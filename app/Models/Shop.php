@@ -17,6 +17,7 @@ class Shop extends Model
         'phone', 
         'note',
         'delete_flag',
+        'payment_period'
     ];
 
      // Define the relationship with invoices (assuming one-to-many relationship)

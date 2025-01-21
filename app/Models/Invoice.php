@@ -27,11 +27,7 @@ class Invoice extends Model
         return $this->belongsTo(Shop::class);
     }
 
-    // In App\Models\Invoice.php
-public function products()
-{
-    return $this->hasMany(InvoiceProduct::class); // Assuming the model is InvoiceProduct
-}
+
 
 public function invoiceProducts()
 {

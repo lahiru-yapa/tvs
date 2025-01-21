@@ -76,18 +76,21 @@
                                             </div>
                                             <div class="input-field col s12 m4 l3">
                                                 <select name="product_name2" id="product_name2">
+
                                                     <option value="" disabled selected>-</option>
+
                                                     @foreach($products as $item)
-                                                    <option value="{{$item->name}}">{{$item->name}}</option>
+                                                    <option value="{{ $item->name }}">{{ $item->name }} -
+                                                        {{ $item->stock }}</option>
                                                     @endforeach
+
                                                 </select>
                                                 <label>Select Product</label>
                                             </div>
 
                                         </div>
-                                        <div class="row">
-                                            <!-- Hidden divs -->
-
+                                        <!-- <div class="row">
+                                          
                                             <div class="input-field col s12 m4 l3" id="cash-div" style="display: none;">
                                                 <input name="payment" type="text" class="validate">
                                                 <label for="price">Cash payment amount</label>
@@ -124,8 +127,8 @@
                                                 style="display: none;">
                                                 <p>Online Payment Selected</p>
                                             </div>
-                                        </div>
-                                        <script>
+                                        </div> -->
+                                        <!-- <script>
                                         const paymentMethodSelect = document.getElementById(
                                             'payment-method-select');
                                         if (paymentMethodSelect) {
@@ -152,7 +155,7 @@
                                                 }
                                             };
                                         }
-                                        </script>
+                                        </script> -->
                                         <div class="row">
                                             <div class="input-field col s12 m4 l3">
                                                 <!-- col s12 for mobile, m4 for medium (tablet), l3 for large (desktop) -->
@@ -316,6 +319,10 @@
                                             width: 33.33%;
                                         }
                                     }
+
+                                    .select-dropdown {
+                                        padding-top: 20px !important;
+                                    }
                                     </style>
 
                                 </div>
@@ -383,14 +390,15 @@
                 },
                 success: function(response) {
                     var suggestions = response; // Array of product names
-
+                    console.log("suggestions", suggestions);
                     // Clear the previous suggestions
                     var datalist = $('#product_suggestions');
                     datalist.empty();
 
                     // Add new suggestions
-                    $.each(suggestions, function(index, suggestion) {
-                        datalist.append('<option value="' + suggestion + '">');
+                    $.each(suggestions, function(name, stock) {
+                        datalist.append('<option value="' + name + ' (' + stock +
+                            ')">');
                     });
                 }
             });

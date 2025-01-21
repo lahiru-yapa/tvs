@@ -34,13 +34,14 @@ class ShopesController extends Controller
         
         // Validation
         $request->validate([
+            'payment_period' => 'required',
             'first_name' => 'required|string|max:255',
             'phone' => 'required|numeric|digits_between:10,15',
             'city' => 'required|string|max:255',
             'credit_limit' => 'required|numeric|min:0',
             'note' => 'nullable|string|max:255',
         ]);
-       
+   
         // Store in the database
         Shop::create([
             'name' => $request->first_name,
@@ -48,6 +49,7 @@ class ShopesController extends Controller
             'credit_limit' => $request->credit_limit,
             'current_balance' => $request->credit_limit, // Initial balance is the credit limit
             'phone' => $request->phone, // If you decide to add a phone field in the database
+            'payment_period' => $request->payment_period,
             'note' => $request->note,
         ]);
 
@@ -65,6 +67,7 @@ class ShopesController extends Controller
     public function editShopstore(Request $request)
     {  
         $request->validate([
+            'payment_period' => $request->payment_period,
             'first_name' => 'required|string|max:255',
             'credit_limit' => 'required|string|max:255',
             'phone' => 'required|numeric|digits_between:10,15',
@@ -81,6 +84,7 @@ class ShopesController extends Controller
                 'phone' => $request->phone,
                 'address' => $request->city, // Updating address with `city`
                 'credit_limit' => $request->credit_limit,
+                'payment_period' => $request->payment_period,
             ]);
         } else {
             return response()->json(['message' => 'User not found'], 404);
