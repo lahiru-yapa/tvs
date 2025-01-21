@@ -21,4 +21,10 @@ class Product extends Model
         'sell_price',
     ];
     
+    public function invoices()
+    {
+        return $this->belongsTo(Shop::class);
+    }
+
+
 }

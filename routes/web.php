@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ShopesController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\InvoiceController;
 
 
 /*
@@ -43,6 +44,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('shops/{id}/edit', [ShopesController::class, 'edit'])->name('shops.edit');
         Route::post('/shop/edit', [ShopesController::class, 'editShopstore'])->name('shop.editStore');
         Route::get('/shop/delete/{id}', [ShopesController::class, 'delete'])->name('shop.delete');
+        Route::get('/shops/credit-limit', [ShopesController::class, 'getShopCreditLimit'])->name('shops.creditLimit');
+        Route::get('/get-average-days', [ShopesController::class, 'getAverageDays']);
 
         Route::get('/all-suppliers', [SupplierController::class, 'allsuppliers'])->name('allsuppliers');
         Route::get('/add-suppliers', [SupplierController::class, 'addsuppliers'])->name('addsuppliers');
@@ -61,8 +64,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/product/delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
         Route::get('product/{id}/view', [ProductController::class, 'view'])->name('product.view');
 
-
-        Route::get('/add-invoice', [ProductController::class, 'addinvoice'])->name('addinvoice');
+        Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
+        Route::get('/products/suggest', [InvoiceController::class, 'suggestProducts'])->name('products.suggest');
+        Route::get('/products/details', [InvoiceController::class, 'getProductDetails'])->name('products.details');
+        Route::post('/product/store', [InvoiceController::class, 'store'])->name('invoice.store');
+        Route::get('/add-invoice', [InvoiceController::class, 'addinvoice'])->name('addinvoice');
+        Route::post('/invoice/store', [InvoiceController::class, 'storeInvoice'])->name('invoice.storeInvoice');
+        Route::post('/invoices/action', [InvoiceController::class, 'handleAction'])->name('invoices.action');
+        Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
+        Route::get('/invoices/{id}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
+        
     });
     
 });

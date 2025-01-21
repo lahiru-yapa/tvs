@@ -78,7 +78,7 @@
                         <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-picture-o" aria-hidden="true"></i> Invoice</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="sight-see-all.html">All Invoice</a>
+                                    <li><a href="{{ route('invoice.index') }}">All Invoice</a>
                                     </li>
                                     <li><a href="{{ route('addinvoice') }}">Add Invoice</a>
                                     </li>

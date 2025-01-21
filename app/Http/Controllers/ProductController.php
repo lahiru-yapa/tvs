@@ -14,6 +14,8 @@ class ProductController extends Controller
         return view('Products.allProducts', compact('products'));
     }
 
+
+
     public function addproduct (Request $request)
     {
         $supllier = Supplier::where('delete_flag', 0)->get();
@@ -133,4 +135,6 @@ class ProductController extends Controller
             return redirect()->route('allproduct')->with('error', 'User could not be flagged as deleted.');
         }
     }
+
+    
 }

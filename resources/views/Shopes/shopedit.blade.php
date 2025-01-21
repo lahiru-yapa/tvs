@@ -63,12 +63,17 @@
         </div>
     </div>
     <div class="row">
-        <div class="input-field col s12">
+        <div class="input-field col s6">
             <input id="city" name="city" type="text" class="validate" value="{{ $shop->address }}">
             <label for="city">Address</label>
             @error('city')
                 <span class="red-text">{{ $message }}</span>
             @enderror
+        </div>
+        <div class="input-field col s6">
+            <input id="payment_period" name="payment_period" type="text" class="validate" value="{{ $shop->payment_period }}">
+            <label for="city">Payment Period</label>
+          
         </div>
     </div>
     <div class="row">
