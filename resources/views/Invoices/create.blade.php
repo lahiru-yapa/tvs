@@ -63,17 +63,7 @@
 
                                             </div>
 
-                                            <div class="input-field col s12 m4 l3">
-                                                <select name="payment_method" id="payment-method-select">
-                                                    <option value="" disabled selected>-</option>
-                                                    <option value="cash">Cash</option>
-                                                    <option value="check">Cheque</option>
-                                                    <option value="online payment">Online payment</option>
-                                                    <option value="credit">Credit</option>
-                                                    <option value="multiple">Multiple</option>
-                                                </select>
-                                                <label>Payment Method</label>
-                                            </div>
+                                          
                                             <div class="input-field col s12 m4 l3">
                                                 <select name="product_name2" id="product_name2">
 

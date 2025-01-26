@@ -16,11 +16,26 @@ class InvoiceController extends Controller
     public function index()
     {
 
-        $invoices = Invoice::with('shop')->paginate(2);
+        $invoices = Invoice::with('shop')
+        ->where('delete_flag', 0)  // Add the filter for delete_flag
+        ->paginate(10);
+    
      
         return view('invoices.viewInvoice', compact('invoices')); 
     }
 
+// In InvoiceController.php
+public function updateDescription(Request $request, $invoiceId)
+{
+    dd("de");
+    $invoice = Invoice::findOrFail($invoiceId); // Find the invoice by ID
+
+    // Update the description based on the checkbox state
+    $invoice->description = $request->input('description');
+    $invoice->save();
+
+    return response()->json(['message' => 'Invoice description updated successfully']);
+}
 
     public function edit($id)
     {
@@ -61,8 +76,11 @@ class InvoiceController extends Controller
 
         case 'delete':
             // Handle the delete action (e.g., confirm deletion or perform the delete)
-            Invoice::findOrFail($invoiceId)->delete();
-            return redirect()->route('invoices.index')->with('success', 'Invoice deleted successfully.');
+            $invoice = Invoice::findOrFail($invoiceId);
+           
+            $invoice->delete_flag = 1;
+            $invoice->save();
+            return redirect()->route('invoice.index')->with('success', 'Invoice deleted successfully.');
 
         default:
             return redirect()->back()->with('error', 'Invalid action selected.');
@@ -134,14 +152,7 @@ class InvoiceController extends Controller
     DB::beginTransaction(); // Start a database transaction
 
     try {
-          // Validate incoming data
-        //   $validatedData1 = $request->validate([
-        //     'check_number' => 'required|string',
-        //     'bank_name' => 'required|string',
-        //     'payment' => 'required|numeric',
-        //     'check_date' => 'required',
-        // ]);
-      
+       
         // Validate the request
         $validatedData = $request->validate([
             'shop_id' => 'required|exists:shops,id',
@@ -169,7 +180,7 @@ class InvoiceController extends Controller
 
         // Set the invoice_date to today's date if not provided
         $invoiceDate = $request->invoice_date ?? Carbon::today();
-
+       
         // Calculate the due date as 30 days from the invoice date
         $dueDate = Carbon::parse($invoiceDate)->addDays(30);
 
@@ -184,7 +195,7 @@ class InvoiceController extends Controller
             'due_date' => $dueDate,
             'invoice_date' => $invoiceDate,
         ]);
-
+        
         // Add counts to selected products
         $counts = $request->input('counts', []);
         $selectedProducts = array_map(function ($product) use ($counts) {
@@ -192,11 +203,11 @@ class InvoiceController extends Controller
             $product['count'] = $counts[$productId] ?? 0;
             return $product;
         }, $selectedProducts);
-
+    
         // Save products to the invoice
         foreach ($selectedProducts as $productData) {
             $total = $productData['count'] * $productData['amount'];
-            $invoice->products()->create([
+            $invoice->invoiceProducts()->create([  // Change 'products' to 'invoiceProducts'
                 'invoice_id' => $invoice->id,
                 'product_id' => $productData['id'],
                 'quantity' => $productData['count'],
@@ -204,19 +215,12 @@ class InvoiceController extends Controller
                 'total' => $total,
             ]);
         }
-     
-// Payment::create([
-//     'invoice_id' => $invoice->id,
-//     'amount' => $validatedData1['payment'], // Amount from the check details
-//     'payment_date' => $validatedData1['check_date'], // Payment date
-//     'payment_method' => $validatedData['payment_method'], // Payment method
-//     'reference_number' => $validatedData1['check_number'], // Check number as reference
-// ]);
-
+        
         DB::commit(); // Commit the transaction if all operations are successful
 
         return redirect()->route('invoice.index')->with('success', 'Invoice created successfully.');
     } catch (\Exception $e) {
+  
         DB::rollBack(); // Rollback the transaction if any operation fails
         return redirect()->back()->with('error', 'An error occurred while creating the invoice. Please try again.');
     }

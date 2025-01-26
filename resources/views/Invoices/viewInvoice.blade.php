@@ -43,7 +43,7 @@
                                                     <th>total_amount</th>
                                                     <th>paid_amount</th>
                                                     <th>due_date</th>
-                                                    <th>paid_status</th>
+                                                    <th>status</th>
                                                     <th>actions</th>
                                                 </tr>
                                             </thead>
@@ -55,12 +55,16 @@
                                                     <td>{{$item->total_amount}}</td>
                                                     <td>{{$item->paid_amount}}</td>
                                                     <td>{{$item->due_date}}</td>
+                                                   
                                                     <td>
-                                                        @if ($item->paid_status === 1)
-                                                        Paid
-                                                        @elseif ($item->paid_status === 0)
-                                                        Unpaid
-                                                        @endif
+                                                    <div class="switch mar-bot-20">
+                                                    <label>
+    Approve
+    <input type="checkbox" id="approvalToggle" data-invoice-id="{{ $item->id }}">
+    <span class="lever"></span> Reject
+</label>
+
+                                    </div>
                                                     </td>
                                                     <td>
                                                         <form method="POST" action="{{ route('invoices.action') }}">
@@ -104,6 +108,9 @@
         background-color: #f9f9f9
     }
     </style>
+    <script>
+
+        </script>
     @include('includes.js')
 </body>
 
