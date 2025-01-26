@@ -21,6 +21,18 @@ class InvoiceController extends Controller
         return view('invoices.viewInvoice', compact('invoices')); 
     }
 
+
+    public function edit($id)
+    {
+        $invoices = Invoice::with('shop', 'invoiceProducts','invoiceProducts.product')
+        ->where('id',$id)
+        ->first(); // Fetch a single invoice
+
+    $shops = Shop::all();
+    $products = Product::all();  
+        return view('invoices.edit', compact('invoices','shops','products')); 
+    }
+
       /**
      * Show the form for creating a new invoice.
      */
@@ -133,7 +145,6 @@ class InvoiceController extends Controller
         // Validate the request
         $validatedData = $request->validate([
             'shop_id' => 'required|exists:shops,id',
-            'payment_method' => 'required|string',
             'selected_products' => 'required|json', // Ensure it's valid JSON
             'counts' => 'required|array', // Ensure counts is an array
         ]);
@@ -172,7 +183,6 @@ class InvoiceController extends Controller
             'paid_status' => $request->payment >= $request->totalAmount ? true : false,
             'due_date' => $dueDate,
             'invoice_date' => $invoiceDate,
-            'payment_method' => $validatedData['payment_method'],
         ]);
 
         // Add counts to selected products
