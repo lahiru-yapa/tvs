@@ -40,7 +40,7 @@ class RefController extends Controller
         
                 $shops = Shop::all();
                  $products = Product::all();  
-            return view('invoices.ref.edit', compact('invoices','shops','products')); 
+            return view('invoices.stock.edit', compact('invoices','shops','products')); 
 
         case 'delete':
             // Handle the delete action (e.g., confirm deletion or perform the delete)
@@ -48,7 +48,7 @@ class RefController extends Controller
            
             $invoice->delete_flag = 1;
             $invoice->save();
-            return redirect()->route('refinvoice.index')->with('success', 'Invoice deleted successfully.');
+            return redirect()->route('refinvoice.index ')->with('success', 'Invoice deleted successfully.');
 
         default:
             return redirect()->back()->with('error', 'Invalid action selected.');

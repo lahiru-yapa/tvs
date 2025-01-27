@@ -7,6 +7,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\RefController;
+use App\Http\Controllers\StockController;
 
 
 /*
@@ -37,6 +38,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/ref-invoices/{id}/edit', [RefController::class, 'edit'])->name('invoices.ref.edit');
     });
 
+    Route::middleware(['stock'])->group(function () {
+        Route::get('/stock-invoices', [StockController::class, 'index'])->name('stockinvoice.index');
+        Route::post('/stock-invoices/action', [StockController::class, 'handleAction'])->name('invoices.stock.action');
+        Route::post('/stock-invoice/store', [StockController::class, 'storeInvoice'])->name('invoice.stock.storeInvoice');
+       
+    });
     Route::middleware(['admin'])->group(function () {
         Route::get('/all-user', [UserController::class, 'allUsers'])->name('alluser');
         Route::get('/add-user', [UserController::class, 'adduser'])->name('adduser');

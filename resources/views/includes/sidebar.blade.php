@@ -91,6 +91,9 @@
             @if(auth()->check() && auth()->user()->role === 'ref')
             <li><a href="{{ route('refinvoice.index') }}">All Invoice</a></li>
             @endif
+            @if(auth()->check() && auth()->user()->role === 'stock')
+            <li><a href="{{ route('stockinvoice.index') }}">All Invoice</a></li>
+            @endif
         </ul>
 
     </div>
