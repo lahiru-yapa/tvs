@@ -24,18 +24,23 @@ class InvoiceController extends Controller
         return view('invoices.viewInvoice', compact('invoices')); 
     }
 
-// In InvoiceController.php
-public function updateDescription(Request $request, $invoiceId)
-{
-    dd("de");
-    $invoice = Invoice::findOrFail($invoiceId); // Find the invoice by ID
+    public function updateDescription(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer|exists:invoices,id',
+            'description' => 'required|string|in:approved,rejected',
+        ]);
 
-    // Update the description based on the checkbox state
-    $invoice->description = $request->input('description');
-    $invoice->save();
+        $updated = DB::table('invoices')
+            ->where('id', $request->id)
+            ->update(['description' => $request->description]);
 
-    return response()->json(['message' => 'Invoice description updated successfully']);
-}
+        if ($updated) {
+            return response()->json(['success' => true, 'message' => 'Invoice updated successfully!']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Failed to update invoice.'], 500);
+    }
 
     public function edit($id)
     {

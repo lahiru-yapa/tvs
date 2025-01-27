@@ -55,16 +55,18 @@
                                                     <td>{{$item->total_amount}}</td>
                                                     <td>{{$item->paid_amount}}</td>
                                                     <td>{{$item->due_date}}</td>
-                                                   
+
                                                     <td>
                                                     <div class="switch mar-bot-20">
-                                                    <label>
-    Approve
-    <input type="checkbox" id="approvalToggle" data-invoice-id="{{ $item->id }}">
-    <span class="lever"></span> Reject
-</label>
+    <label>
+         Reject
+        <input type="checkbox"  class="approvalToggle"  data-invoice-id="{{ $item->id }}" 
+               {{ $item->description === 'approved' ? 'checked' : '' }}>
+        <span class="lever"></span> Approve
+    </label>
+</div>
 
-                                    </div>
+
                                                     </td>
                                                     <td>
                                                         <form method="POST" action="{{ route('invoices.action') }}">
@@ -109,8 +111,39 @@
     }
     </style>
     <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const approvalToggles = document.querySelectorAll('.approvalToggle');
 
-        </script>
+    approvalToggles.forEach(function (toggle) {
+        toggle.addEventListener('change', function () {
+            const invoiceId = this.getAttribute('data-invoice-id');
+            const description = this.checked ? 'approved' : 'rejected';
+
+            fetch('/update-invoice-description', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+                body: JSON.stringify({ id: invoiceId, description: description }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`Invoice ${description} successfully!`);
+                    } else {
+                        alert('Failed to update invoice. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+        });
+    });
+});
+
+    </script>
     @include('includes.js')
 </body>
 

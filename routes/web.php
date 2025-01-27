@@ -74,7 +74,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
         Route::get('/invoices/{id}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
         // In routes/web.php
-Route::patch('/invoices/{invoice}/update-description', [InvoiceController::class, 'updateDescription']);
+        Route::post('/update-invoice-description', [InvoiceController::class, 'updateDescription']);
 
     });
     
