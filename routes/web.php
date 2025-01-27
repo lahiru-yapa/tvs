@@ -6,6 +6,7 @@ use App\Http\Controllers\ShopesController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\RefController;
 
 
 /*
@@ -27,6 +28,13 @@ Route::get('/login', function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/index', function () {
         return view('welcome'); // Replace 'index' with your actual view name
+    });
+
+    Route::middleware(['ref'])->group(function () {
+        // Routes that require the 'ref' role
+        Route::get('/ref-invoices', [RefController::class, 'index'])->name('refinvoice.index');
+        Route::post('/ref-invoices/action', [RefController::class, 'handleAction'])->name('invoices.ref.action');
+        Route::get('/ref-invoices/{id}/edit', [RefController::class, 'edit'])->name('invoices.ref.edit');
     });
 
     Route::middleware(['admin'])->group(function () {
