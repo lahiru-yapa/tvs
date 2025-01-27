@@ -44,8 +44,9 @@
 
 
                                 <div class="tab-inn">
-                                    <form action="{{ route('invoice.storeInvoice') }}" method="POST">
+                                <form action="{{ route('invoice.updateInvoice', $invoices->id) }}" method="POST">
                                         @csrf
+                                        @method('PUT') <!-- Use PUT or PATCH for updates -->
                                         <div class="row">
                                             <div class="input-field col s12 m4 l3">
                                                 <select name="shop_id" id="shop-select">
@@ -318,6 +319,8 @@
         });
     });
 
+ 
+
     $(document).ready(function() {
         // Search for products as user types
         $('#product_name').on('keyup', function() {
@@ -338,17 +341,36 @@
 
                     // Add new suggestions
                     $.each(suggestions, function(name, stock) {
-                        datalist.append('<option value="' + name + ' (' + stock +
-                            ')">');
+                        datalist.append('<option value="' + name + ' (' + stock +')">');
                     });
                 }
             });
         });
 
+ // Initialize selectedProducts with existing products from the backend-rendered table
+ var selectedProducts = [];
+
+$('#selected-products-body tr').each(function() {
+    var productId = $(this).find('input[name^="counts"]').attr('name').match(/\d+/)[0]; // Extract product ID
+    var productName = $(this).find('td:nth-child(2)').text().trim(); // Get product name
+    var productAmount = $(this).find('td:nth-child(3)').text().trim(); // Get product amount
+    var productImage = $(this).find('td:first-child img').attr('src'); // Get product image
+
+    selectedProducts.push({
+        id: productId,
+        name: productName,
+        amount: productAmount,
+        image: productImage
+    });
+});
+
+// Store the initial selected products in the hidden input
+$('#selected-products').val(JSON.stringify(selectedProducts));
+        
         // Handle when user selects a product
         $('#product_name, #product_name2').on('change', function() {
             var selectedProductName = $(this).val(); // Get the selected product name
-
+          
             // Fetch product details via AJAX
             $.ajax({
                 url: "{{ route('products.details') }}", // Your route to fetch product details
@@ -379,9 +401,7 @@
                         $('#selected-products-body').append(productRow);
 
                         // Add product to the hidden input array
-                        var selectedProducts = $('#selected-products').val() ? JSON.parse($(
-                            '#selected-products').val()) : [];
-                        selectedProducts.push({
+                         selectedProducts.push({
                             id: response.id,
                             name: response.name,
                             amount: response.amount,

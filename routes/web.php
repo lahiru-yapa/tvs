@@ -84,12 +84,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/products/details', [InvoiceController::class, 'getProductDetails'])->name('products.details');
         Route::post('/product/store', [InvoiceController::class, 'store'])->name('invoice.store');
         Route::get('/add-invoice', [InvoiceController::class, 'addinvoice'])->name('addinvoice');
-        Route::post('/invoice/store', [InvoiceController::class, 'storeInvoice'])->name('invoice.storeInvoice');
+       
         Route::post('/invoices/action', [InvoiceController::class, 'handleAction'])->name('invoices.action');
         Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
         Route::get('/invoices/{id}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
         // In routes/web.php
         Route::post('/update-invoice-description', [InvoiceController::class, 'updateDescription']);
+        Route::put('/invoice/{id}', [InvoiceController::class, 'updateInvoice'])->name('invoice.updateInvoice');
 
     });
     

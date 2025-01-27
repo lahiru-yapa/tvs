@@ -113,7 +113,10 @@ class InvoiceController extends Controller
     // Fetch product details based on the selected product name
     public function getProductDetails(Request $request)
     {
-        $productName = $request->get('product_name');
+
+       $productName = preg_replace('/\s*\(.*?\)/', '', $request->get('product_name'));
+
+
         $product = Product::where('name', $productName)->first();
 
         if ($product) {
@@ -152,8 +155,9 @@ class InvoiceController extends Controller
         return redirect()->route('product.index')->with('success', 'Products added successfully!');
     }
 
-    public function storeInvoice(Request $request)
+    public function updateInvoice(Request $request, $id)
 {
+ 
     DB::beginTransaction(); // Start a database transaction
 
     try {
@@ -189,18 +193,19 @@ class InvoiceController extends Controller
         // Calculate the due date as 30 days from the invoice date
         $dueDate = Carbon::parse($invoiceDate)->addDays(30);
 
-        // Create the invoice
-        $invoice = Invoice::create([
+        $invoice = Invoice::findOrFail($id);
+        $invoice->update([
             'shop_id' => $validatedData['shop_id'],
             'user_id' => auth()->user()->id,
             'invoice_number' => $invoiceNumber,
             'total_amount' => $request->totalAmount,
-            'paid_amount' => 0,
+            'paid_amount' => $request->paidAmount ?? $invoice->paid_amount, // Use existing value if not provided
             'paid_status' => $request->payment >= $request->totalAmount ? true : false,
             'due_date' => $dueDate,
             'invoice_date' => $invoiceDate,
         ]);
         
+      
         // Add counts to selected products
         $counts = $request->input('counts', []);
         $selectedProducts = array_map(function ($product) use ($counts) {
@@ -208,24 +213,41 @@ class InvoiceController extends Controller
             $product['count'] = $counts[$productId] ?? 0;
             return $product;
         }, $selectedProducts);
-    
-        // Save products to the invoice
-        foreach ($selectedProducts as $productData) {
-            $total = $productData['count'] * $productData['amount'];
-            $invoice->invoiceProducts()->create([  // Change 'products' to 'invoiceProducts'
-                'invoice_id' => $invoice->id,
-                'product_id' => $productData['id'],
-                'quantity' => $productData['count'],
-                'price' => $productData['amount'],
-                'total' => $total,
-            ]);
-        }
-        
+       
+       // Save products to the invoice
+foreach ($selectedProducts as $productData) {
+    $total = $productData['count'] * $productData['amount'];
+
+    // Check if the product already exists in the invoice
+    $invoiceProduct = $invoice->invoiceProducts()
+        ->where('product_id', $productData['id'])
+        ->first();
+       
+    if ($invoiceProduct) {
+        // Update the existing invoice product
+        $invoiceProduct->update([
+            'quantity' => $productData['count'],
+            'price' => $productData['amount'],
+            'total' => $total,
+        ]);
+    } else {
+       
+        // Create a new invoice product if it doesn't exist
+        $invoice->invoiceProducts()->create([
+            'invoice_id' => $id,
+            'product_id' => $productData['id'],
+            'quantity' => $productData['count'],
+            'price' => $productData['amount'],
+            'total' => $total,
+        ]);
+    }
+}
+
         DB::commit(); // Commit the transaction if all operations are successful
 
         return redirect()->route('invoice.index')->with('success', 'Invoice created successfully.');
     } catch (\Exception $e) {
-  
+        dd($e);
         DB::rollBack(); // Rollback the transaction if any operation fails
         return redirect()->back()->with('error', 'An error occurred while creating the invoice. Please try again.');
     }
