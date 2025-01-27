@@ -40,5 +40,11 @@ public function invoiceProducts()
         return $this->hasMany(Payment::class, 'invoice_id');
     }
     
+    // In the Invoice model
+public function products()
+{
+    return $this->hasMany(InvoiceProduct::class);
+}
+
 }
 

@@ -43,7 +43,7 @@
                                                     <th>total_amount</th>
                                                     <th>paid_amount</th>
                                                     <th>due_date</th>
-                                                    <th>paid_status</th>
+                                                    <th>status</th>
                                                     <th>actions</th>
                                                 </tr>
                                             </thead>
@@ -55,12 +55,18 @@
                                                     <td>{{$item->total_amount}}</td>
                                                     <td>{{$item->paid_amount}}</td>
                                                     <td>{{$item->due_date}}</td>
+
                                                     <td>
-                                                        @if ($item->paid_status === 1)
-                                                        Paid
-                                                        @elseif ($item->paid_status === 0)
-                                                        Unpaid
-                                                        @endif
+                                                    <div class="switch mar-bot-20">
+    <label>
+         Reject
+        <input type="checkbox"  class="approvalToggle"  data-invoice-id="{{ $item->id }}" 
+               {{ $item->description === 'approved' ? 'checked' : '' }}>
+        <span class="lever"></span> Approve
+    </label>
+</div>
+
+
                                                     </td>
                                                     <td>
                                                         <form method="POST" action="{{ route('invoices.action') }}">
@@ -104,6 +110,40 @@
         background-color: #f9f9f9
     }
     </style>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const approvalToggles = document.querySelectorAll('.approvalToggle');
+
+    approvalToggles.forEach(function (toggle) {
+        toggle.addEventListener('change', function () {
+            const invoiceId = this.getAttribute('data-invoice-id');
+            const description = this.checked ? 'approved' : 'rejected';
+
+            fetch('/update-invoice-description', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+                body: JSON.stringify({ id: invoiceId, description: description }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`Invoice ${description} successfully!`);
+                    } else {
+                        alert('Failed to update invoice. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+        });
+    });
+});
+
+    </script>
     @include('includes.js')
 </body>
 
