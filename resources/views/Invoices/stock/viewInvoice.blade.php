@@ -19,7 +19,7 @@
                     <ul>
                         <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
                         </li>
-                        <li class="active-bre"><a href="#"> Ui Form</a>
+                        <li class="active-bre"><a href="#"> stock-invoices</a>
                         </li>
                     </ul>
                 </div>
@@ -28,7 +28,7 @@
                         <div class="col-md-12">
                             <div class="box-inn-sp">
                                 <div class="inn-title">
-                                    <h4>Product Details</h4>
+                                    <h4>Approved Invoice Details</h4>
 
                                     <!-- Dropdown Structure -->
 
@@ -66,8 +66,7 @@
                                                                 <option value="">Select Action</option>
                                                                 <option value="view">View</option>
                                                                 <option value="edit">Edit</option>
-                                                                <option value="delete">Delete</option>
-                                                            </select>
+                                                                </select>
                                                         </form>
                                                     </td>
 

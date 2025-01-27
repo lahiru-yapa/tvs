@@ -31,6 +31,13 @@ Route::middleware(['auth'])->group(function () {
         return view('welcome'); // Replace 'index' with your actual view name
     });
 
+
+    Route::get('/shops/credit-limit', [ShopesController::class, 'getShopCreditLimit'])->name('shops.creditLimit');
+    Route::get('/products/suggest', [InvoiceController::class, 'suggestProducts'])->name('products.suggest');
+    Route::get('/products/details', [InvoiceController::class, 'getProductDetails'])->name('products.details');
+    Route::get('/get-average-days', [ShopesController::class, 'getAverageDays']);
+
+    
     Route::middleware(['ref'])->group(function () {
         // Routes that require the 'ref' role
         Route::get('/ref-invoices', [RefController::class, 'index'])->name('refinvoice.index');
@@ -42,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/stock-invoices', [StockController::class, 'index'])->name('stockinvoice.index');
         Route::post('/stock-invoices/action', [StockController::class, 'handleAction'])->name('invoices.stock.action');
         Route::post('/stock-invoice/store', [StockController::class, 'storeInvoice'])->name('invoice.stock.storeInvoice');
-       
+        Route::put('/stock-invoice/{id}', [StockController::class, 'updateInvoice'])->name('stock.invoice.updateInvoice');
     });
     Route::middleware(['admin'])->group(function () {
         Route::get('/all-user', [UserController::class, 'allUsers'])->name('alluser');
@@ -59,8 +66,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('shops/{id}/edit', [ShopesController::class, 'edit'])->name('shops.edit');
         Route::post('/shop/edit', [ShopesController::class, 'editShopstore'])->name('shop.editStore');
         Route::get('/shop/delete/{id}', [ShopesController::class, 'delete'])->name('shop.delete');
-        Route::get('/shops/credit-limit', [ShopesController::class, 'getShopCreditLimit'])->name('shops.creditLimit');
-        Route::get('/get-average-days', [ShopesController::class, 'getAverageDays']);
+
+      
 
         Route::get('/all-suppliers', [SupplierController::class, 'allsuppliers'])->name('allsuppliers');
         Route::get('/add-suppliers', [SupplierController::class, 'addsuppliers'])->name('addsuppliers');
@@ -81,7 +88,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
         Route::get('/products/suggest', [InvoiceController::class, 'suggestProducts'])->name('products.suggest');
-        Route::get('/products/details', [InvoiceController::class, 'getProductDetails'])->name('products.details');
+    
         Route::post('/product/store', [InvoiceController::class, 'store'])->name('invoice.store');
         Route::get('/add-invoice', [InvoiceController::class, 'addinvoice'])->name('addinvoice');
        
