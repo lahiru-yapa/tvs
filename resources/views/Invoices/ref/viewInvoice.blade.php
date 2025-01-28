@@ -29,6 +29,27 @@
                             <div class="box-inn-sp">
                                 <div class="inn-title">
                                     <h4>Product Details</h4>
+                                    <select id="filterStatusSelect" onchange="filterStatusChange(this)">
+    <option value="">Select Status</option>
+    <option value="approved" {{ request()->get('filter') == 'approved' ? 'selected' : '' }}>Approved</option>
+    <option value="rejected" {{ request()->get('filter') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+    <option value="pending" {{ request()->get('filter') == 'pending' ? 'selected' : '' }}>Pending</option>
+</select>
+
+<script>
+    function filterStatusChange(selectElement) {
+        const selectedValue = selectElement.value;
+
+        // Redirect to the new filter route with the selected status
+        const url = new URL("{{ route('invoices.filter') }}");
+        if (selectedValue) {
+            url.searchParams.set('filter', selectedValue);
+        }
+
+        window.location.href = url.toString();
+    }
+</script>
+
 
                                     <!-- Dropdown Structure -->
 
@@ -101,6 +122,9 @@
         background-color: #f9f9f9
     }
     </style>
+    
+
+
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const approvalToggles = document.querySelectorAll('.approvalToggle');
@@ -138,6 +162,7 @@
         });
     });
     </script>
+    
     @include('includes.js')
 </body>
 

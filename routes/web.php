@@ -37,12 +37,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/products/details', [InvoiceController::class, 'getProductDetails'])->name('products.details');
     Route::get('/get-average-days', [ShopesController::class, 'getAverageDays']);
 
-    
+
     Route::middleware(['ref'])->group(function () {
         // Routes that require the 'ref' role
         Route::get('/ref-invoices', [RefController::class, 'index'])->name('refinvoice.index');
         Route::post('/ref-invoices/action', [RefController::class, 'handleAction'])->name('invoices.ref.action');
         Route::get('/ref-invoices/{id}/edit', [RefController::class, 'edit'])->name('invoices.ref.edit');
+        Route::put('/ref-invoice/{id}', [RefController::class, 'updateInvoice'])->name('ref.invoice.updateInvoice');
+        Route::get('/invoices/filter', [RefController::class, 'filterIndex'])->name('invoices.filter');
+
     });
 
     Route::middleware(['stock'])->group(function () {
