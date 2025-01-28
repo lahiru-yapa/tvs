@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\RefController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\DashboardController;
 
 
 /*
@@ -27,10 +28,8 @@ Route::get('/login', function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/index', function () {
-        return view('welcome'); // Replace 'index' with your actual view name
-    });
-
+    
+    Route::get('/index', [DashboardController::class, 'showInvoiceChart'])->name('dashboard');
 
     Route::get('/shops/credit-limit', [ShopesController::class, 'getShopCreditLimit'])->name('shops.creditLimit');
     Route::get('/products/suggest', [InvoiceController::class, 'suggestProducts'])->name('products.suggest');
@@ -102,6 +101,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/update-invoice-description', [InvoiceController::class, 'updateDescription']);
         Route::put('/invoice/{id}', [InvoiceController::class, 'updateInvoice'])->name('invoice.updateInvoice');
         Route::get('/invoices/filter', [InvoiceController::class, 'filterIndex'])->name('admin.invoices.filter');
+
+
+
+        Route::get('/admin/invoice-chart', [DashboardController::class, 'showInvoiceChart'])->name('invoices.chart');
 
     });
     

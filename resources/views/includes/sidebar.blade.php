@@ -13,25 +13,10 @@
     <!--== LEFT MENU ==-->
     <div class="sb2-13">
         <ul class="collapsible" data-collapsible="accordion">
-            <li><a href="index.html" class="menu-active"><i class="fa fa-bar-chart" aria-hidden="true"></i>
+            <li><a  href="{{ route('dashboard') }}" class="menu-active"><i class="fa fa-bar-chart" aria-hidden="true"></i>
                     Dashboard</a>
             </li>
-            <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-list-ul" aria-hidden="true"></i>
-                    Inventory</a>
-                <div class="collapsible-body left-sub-menu">
-                    <ul>
-                        <li><a href="Inventory-all.html">All Inventory</a>
-                        </li>
-                        <li><a href="Inventory-add.html">Add New Inventory</a>
-                        </li>
-                        <li><a href="Inventory-cat-all.html">All Inventory Categories</a>
-                        </li>
-                        <li><a href="Inventory-cat-add.html">Add Inventory Categories</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
+           
 
             @if(auth()->check() && auth()->user()->role === 'admin')
             <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-user" aria-hidden="true"></i>
