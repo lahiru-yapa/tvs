@@ -24,6 +24,21 @@ class InvoiceController extends Controller
         return view('invoices.viewInvoice', compact('invoices')); 
     }
 
+    
+    public function filterIndex()
+    {
+        $query = Invoice::with('shop')->where('delete_flag', 0);
+    
+        // Apply filter based on the query parameter
+        if ($filter = request()->get('filter')) {
+            $query->where('description', ucfirst($filter)); // Capitalize the filter value (e.g., "approved")
+        }
+    
+        $invoices = $query->paginate(10);
+    
+        return view('invoices.viewInvoice', compact('invoices'));
+    }
+
     public function updateDescription(Request $request)
     {
         $request->validate([

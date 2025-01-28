@@ -101,6 +101,7 @@ Route::middleware(['auth'])->group(function () {
         // In routes/web.php
         Route::post('/update-invoice-description', [InvoiceController::class, 'updateDescription']);
         Route::put('/invoice/{id}', [InvoiceController::class, 'updateInvoice'])->name('invoice.updateInvoice');
+        Route::get('/invoices/filter', [InvoiceController::class, 'filterIndex'])->name('admin.invoices.filter');
 
     });
     
