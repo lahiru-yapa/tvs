@@ -17,9 +17,9 @@ class RefController extends Controller
     {
 
         $invoices = Invoice::with('shop')
-        ->where('delete_flag', 0) // Add the filter for delete_flag
+        ->where('delete_flag', 0)
+        ->orderBy('created_at', 'desc') // Order by latest created_at
         ->paginate(10);
-    
      
         return view('invoices.ref.viewInvoice', compact('invoices')); 
     }
@@ -78,7 +78,6 @@ class RefController extends Controller
 
 public function updateInvoice(Request $request, $id)
 {
- 
     DB::beginTransaction(); // Start a database transaction
 
     try {
@@ -168,11 +167,87 @@ foreach ($selectedProducts as $productData) {
 
         return redirect()->route('refinvoice.index')->with('success', 'Invoice created successfully.');
     } catch (\Exception $e) {
-        dd(e);
         DB::rollBack(); // Rollback the transaction if any operation fails
         return redirect()->back()->with('error', 'An error occurred while creating the invoice. Please try again.');
     }
 }
 
+      /**
+     * Show the form for creating a new invoice.
+     */
+    public function addinvoice()
+    {
 
+        $shops = Shop::all();
+        $user =  auth()->user()->name;
+        $products = Product::all();
+
+        return view('invoices.ref.create', compact('shops', 'user', 'products'));
+    }
+
+
+    public function storeInvoice(Request $request)
+    {
+        // Validate the request
+        $validatedData = $request->validate([
+            'shop_id' => 'required|exists:shops,id',
+            'selected_products' => 'required|json', // Ensure it's valid JSON
+            'counts' => 'required|array', // Ensure counts is an array
+        ]);
+    
+        try {
+            DB::beginTransaction(); // Start transaction
+    
+            $invoiceNumber = 'INV-' . date('Ymd') . '-' . Str::random(6);
+            $dueDate = Carbon::today()->addDays(30);
+    
+            // Create invoice
+            $invoice = Invoice::create([
+                'shop_id' => $request->shop_id,
+                'user_id' => auth()->user()->id,
+                'invoice_number' => $invoiceNumber,
+                'total_amount' => $request->totalAmount,
+                'paid_amount' => 0,
+                'paid_status' => 0,
+                'due_date' => $dueDate,
+                'invoice_date' => Carbon::today(),
+                'description' => 'pending',
+            ]);
+ 
+            // Parse the selected products from JSON
+            $selectedProducts = json_decode($validatedData['selected_products'], true);
+    
+            if (!$selectedProducts || !is_array($selectedProducts)) {
+                throw new \Exception('Invalid product data.');
+            }
+       
+            // Assign product counts
+            $counts = $request->input('counts', []);
+            $selectedProducts = array_map(function ($product) use ($counts) {
+                $productId = $product['id'];
+                $product['count'] = $counts[$productId] ?? 0;
+                return $product;
+            }, $selectedProducts);
+          
+            // Insert invoice products
+            foreach ($selectedProducts as $productData) {
+                $total = $productData['count'] * $productData['amount'];
+    
+                $invoice->invoiceProducts()->create([
+                    'product_id' => $productData['id'],
+                    'quantity' => $productData['count'],
+                    'price' => $productData['amount'],
+                    'total' => $total,
+                ]);
+            }
+          
+            DB::commit(); // Commit transaction if everything is successful
+    
+            return redirect()->route('refinvoice.index')->with('success', 'Invoice added successfully!');
+        } catch (\Exception $e) {
+            dd($e);
+            DB::rollBack(); // Rollback on error
+            return redirect()->back()->withErrors(['error' => 'Failed to add invoice: ' . $e->getMessage()]);
+        }
+    }
 }

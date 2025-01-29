@@ -30,6 +30,7 @@ Route::get('/login', function () {
 Route::middleware(['auth'])->group(function () {
     
     Route::get('/index', [DashboardController::class, 'showInvoiceChart'])->name('dashboard');
+    
 
     Route::get('/shops/credit-limit', [ShopesController::class, 'getShopCreditLimit'])->name('shops.creditLimit');
     Route::get('/products/suggest', [InvoiceController::class, 'suggestProducts'])->name('products.suggest');
@@ -43,10 +44,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/ref-invoices/action', [RefController::class, 'handleAction'])->name('invoices.ref.action');
         Route::get('/ref-invoices/{id}/edit', [RefController::class, 'edit'])->name('invoices.ref.edit');
         Route::put('/ref-invoice/{id}', [RefController::class, 'updateInvoice'])->name('ref.invoice.updateInvoice');
-        Route::get('/invoices/filter', [RefController::class, 'filterIndex'])->name('invoices.filter');
-
+        Route::get('/ref-invoices/filter', [RefController::class, 'filterIndex'])->name('invoices.filter');
+        Route::get('/ref-add-invoice', [RefController::class, 'addinvoice'])->name('ref.addinvoice');
+        Route::post('/ref-invoices/add', [RefController::class, 'storeInvoice'])->name('ref.invoice.storeInvoice');
     });
-
+    
     Route::middleware(['stock'])->group(function () {
         Route::get('/stock-invoices', [StockController::class, 'index'])->name('stockinvoice.index');
         Route::post('/stock-invoices/action', [StockController::class, 'handleAction'])->name('invoices.stock.action');

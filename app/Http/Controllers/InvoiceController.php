@@ -246,7 +246,6 @@ foreach ($selectedProducts as $productData) {
             'total' => $total,
         ]);
     } else {
-       
         // Create a new invoice product if it doesn't exist
         $invoice->invoiceProducts()->create([
             'invoice_id' => $id,
@@ -257,12 +256,9 @@ foreach ($selectedProducts as $productData) {
         ]);
     }
 }
-
         DB::commit(); // Commit the transaction if all operations are successful
-
         return redirect()->route('invoice.index')->with('success', 'Invoice created successfully.');
     } catch (\Exception $e) {
-        dd($e);
         DB::rollBack(); // Rollback the transaction if any operation fails
         return redirect()->back()->with('error', 'An error occurred while creating the invoice. Please try again.');
     }

@@ -13,10 +13,11 @@
     <!--== LEFT MENU ==-->
     <div class="sb2-13">
         <ul class="collapsible" data-collapsible="accordion">
-            <li><a  href="{{ route('dashboard') }}" class="menu-active"><i class="fa fa-bar-chart" aria-hidden="true"></i>
+            <li><a href="{{ route('dashboard') }}" class="menu-active"><i class="fa fa-bar-chart"
+                        aria-hidden="true"></i>
                     Dashboard</a>
             </li>
-           
+
 
             @if(auth()->check() && auth()->user()->role === 'admin')
             <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-user" aria-hidden="true"></i>
@@ -54,17 +55,22 @@
     </div>
 </li>
 @endif
+
+@if(auth()->check() && auth()->user()->role === 'admin')
 <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-h-square" aria-hidden="true"></i>
         Products</a>
     <div class="collapsible-body left-sub-menu">
+      
         <ul>
             <li><a href="{{ route('allproduct') }}">All Products</a>
             </li>
             <li><a href="{{ route('addproduct') }}">Add Products</a>
             </li>
         </ul>
+      
     </div>
 </li>
+@endif
 <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-picture-o" aria-hidden="true"></i>
         Invoice</a>
     <div class="collapsible-body left-sub-menu">
@@ -75,6 +81,7 @@
             @endif
             @if(auth()->check() && auth()->user()->role === 'ref')
             <li><a href="{{ route('refinvoice.index') }}">All Invoice</a></li>
+            <li><a href="{{ route('ref.addinvoice') }}">Add Invoice</a></li>
             @endif
             @if(auth()->check() && auth()->user()->role === 'stock')
             <li><a href="{{ route('stockinvoice.index') }}">All Invoice</a></li>
@@ -83,57 +90,7 @@
 
     </div>
 </li>
-<li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-calendar-o" aria-hidden="true"></i>
-        Events</a>
-    <div class="collapsible-body left-sub-menu">
-        <ul>
-            <li><a href="event-all.html">All Events</a>
-            </li>
-            <li><a href="event-add.html">Add New Event</a>
-            </li>
-        </ul>
-    </div>
-</li>
 
-<li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-tags" aria-hidden="true"></i> Offers</a>
-    <div class="collapsible-body left-sub-menu">
-        <ul>
-            <li><a href="offers.html">All Offers</a>
-            </li>
-            <li><a href="offers-add.html">Add New Offers</a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-ticket" aria-hidden="true"></i>Suplliers</a>
-    <div class="collapsible-body left-sub-menu">
-        <ul>
-            <li><a href="Main Where House---all.html">Main Where House</a>
-            </li>
-            <li><a href="package---all.html">Package</a>
-            </li>
-            <li><a href="sight-see---all.html">Sight Seeings</a>
-            </li>
-            <li><a href="event---all.html">Events</a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-rss" aria-hidden="true"></i> Blog &
-        Articals</a>
-    <div class="collapsible-body left-sub-menu">
-        <ul>
-            <li><a href="blog-all.html">All Blogs</a>
-            </li>
-            <li><a href="blog-add.html">Add Blog</a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li><a href="social-media.html"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Social Media</a>
-</li>
-<li><a href="login.html" target="_blank"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
-</li>
 </ul>
 </div>
 </div>

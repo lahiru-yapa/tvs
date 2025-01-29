@@ -79,20 +79,22 @@
 
                                                     <td>{{$item->description}}</td>
                                                     <td>
-                                                        <form method="POST"
-                                                            action="{{ auth()->user()->role === 'admin' ? route('invoices.action') : route('invoices.ref.action') }}">
-                                                            @csrf
-                                                            <input type="hidden" name="invoice_id"
-                                                                value="{{ $item->id }}">
-                                                            <select name="action" onchange="this.form.submit()">
-                                                                <option value="">Select Action</option>
-                                                                <option value="view">View</option>
-                                                                <option value="edit">Edit</option>
-                                                                <option value="delete">Delete</option>
-                                                            </select>
-                                                        </form>
+    <form method="POST"
+        action="{{ auth()->user()->role === 'admin' ? route('invoices.action') : route('invoices.ref.action') }}">
+        @csrf
+        <input type="hidden" name="invoice_id" value="{{ $item->id }}">
+        <select name="action" onchange="this.form.submit()">
+            <option value="">Select Action</option>
 
-                                                    </td>
+            @if($item->description == 'pending')
+                <option value="edit">Edit</option>
+                <option value="delete">Delete</option>
+            @endif
+
+            <option value="view">View</option>
+        </select>
+    </form>
+</td>
 
                                                 </tr>
                                                 @endforeach
