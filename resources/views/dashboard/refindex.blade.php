@@ -28,12 +28,22 @@
                         <div class="col-md-12">
                             <div class="box-inn-sp">
                                 <div class="inn-title">
+                                    <div class="container">
+                                        <div id="salesChart"></div>
+                                        <div class="row">
+    <div class="col-12 col-md-6 mb-2 mb-md-0" style="text-align: center;padding: 10px;">
+        <button type="button" class="btn btn-light w-100" onclick="window.location='{{ route('refinvoice.index') }}'">
+            All Invoice
+        </button>
+    </div>
 
-                                <div class="container">
- 
-    <div id="salesChart"></div>
+    <div class="col-12 col-md-6" style="text-align: center;padding: 10px;">
+        <button type="button" class="btn btn-light w-100" onclick="window.location='{{ route('ref.addinvoice') }}'">
+            Add Invoice
+        </button>
+    </div>
 </div>
-
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -41,13 +51,20 @@
                 </div>
             </div>
             <script src="https://code.highcharts.com/highcharts.js"></script>
+            <style>
+    #salesChart {
+        width: 100%;
+        max-width: 100%;
+        height: 400px; /* Adjust as needed */
+    }
+</style>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    
         Highcharts.chart('salesChart', {
             chart: {
-                type: 'line'
+                type: 'line',
+                height: '50%' // Adjusts height dynamically
             },
             title: {
                 text: 'Daily Sales for Last 3 Months'
@@ -56,6 +73,10 @@
                 categories: Array.from({length: 31}, (_, i) => i + 1),
                 title: {
                     text: 'Days of the Month'
+                },
+                labels: {
+                    rotation: -45, // Rotate labels for better readability
+                    step: window.innerWidth < 768 ? 3 : 1 // Reduce labels on small screens
                 }
             },
             yAxis: {
@@ -79,7 +100,24 @@
                     data: @json(array_values($chartData['twoMonthsAgo'])),
                     color: '#3380FF'
                 }
-            ]
+            ],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 768
+                    },
+                    chartOptions: {
+                        chart: {
+                            height: 300
+                        },
+                        xAxis: {
+                            labels: {
+                                step: 3
+                            }
+                        }
+                    }
+                }]
+            }
         });
     });
 </script>
