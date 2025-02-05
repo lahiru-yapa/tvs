@@ -9,6 +9,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\RefController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReturnProductController;
 
 
 /*
@@ -81,6 +82,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/suppliers/delete/{id}', [SupplierController::class, 'delete'])->name('suppliers.delete');
         Route::get('suppliers/{id}/view', [SupplierController::class, 'view'])->name('suppliers.view');
 
+        
+        Route::get('/all-returns', [ReturnProductController::class, 'allReturns'])->name('allReturns');
+        Route::get('/add-returns', [ReturnProductController::class, 'addReturns'])->name('addReturns');
 
         Route::get('/all-product', [ProductController::class, 'allproducts'])->name('allproduct');
         Route::get('/add-product', [ProductController::class, 'addproduct'])->name('addproduct');
