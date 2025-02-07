@@ -40,7 +40,15 @@ class ReturnProductController extends Controller
 
         return response()->json(['products' => $products]);
     }
+public function getReturnedProducts(Request $request)
+{
+ // Fetching product returns with related return items and products
+$returnedProducts = ProductReturn::with('returnItems.product') // Eager load returnItems and their products
+->where('invoice_id', $request->invoice_id)
+->get();
 
+    return response()->json(['returned_products' => $returnedProducts]);
+}
 
     public function returnProduct(Request $request)
     {
@@ -84,9 +92,20 @@ class ReturnProductController extends Controller
         $productReturn->total_amount += $returnAmount;
         $productReturn->save();
 
+         // Step 5: If salable, update product stock
+         if ($validatedData['salable_status'] === 'salable') {
+            Product::where('id', $validatedData['productId'])->increment('stock', $validatedData['return_quantity']);
+        }
+
+
         DB::commit();
 
-        return response()->json(['success' => true, 'message' => 'Product return handled successfully']);
+
+        $returnedProducts = ProductReturn::with('returnItems.product') // Eager load returnItems and their products
+    ->where('invoice_id',  $validatedData['invoice_id'])
+    ->get();
+
+    return response()->json(['returned_products' => $returnedProducts]);
     } catch (\Exception $e) {
         DB::rollBack();
         return response()->json(['success' => false, 'message' => $e->getMessage()], 500);

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProductReturn extends Model
 {
@@ -22,4 +23,10 @@ class ProductReturn extends Model
     {
         return $this->hasMany(ReturnItem::class, 'product_return_id');
     }
+
+    public function invoice()
+{
+    return $this->belongsTo(Invoice::class, 'invoice_id');
+}
+
 }

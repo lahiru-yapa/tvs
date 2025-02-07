@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 
 class ReturnItem extends Model
 {
@@ -23,4 +25,11 @@ class ReturnItem extends Model
     {
         return $this->belongsTo(ProductReturn::class, 'product_return_id');
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+ 
 }

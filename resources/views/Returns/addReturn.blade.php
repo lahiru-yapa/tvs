@@ -207,7 +207,7 @@
             
             // Fetch and display product details
             fetchInvoiceProducts(selectedInvoice.id);
-            
+            fetchReturnedProducts(selectedInvoice.id);
         }
     });
 
@@ -224,6 +224,49 @@
             }
         });
     }
+
+
+    function fetchReturnedProducts(invoiceId) {
+        $j.ajax({
+            url: '/get-returned-products',  // Laravel route to fetch returned products
+            method: 'GET',
+            data: { invoice_id: invoiceId },
+            success: function (response) {
+                renderReturnedProducts(response.returned_products);
+            },
+            error: function () {
+                alert('Failed to fetch returned products. Please try again.');
+            }
+        });
+    }
+
+    function renderReturnedProducts(returnedProducts) {
+        var tableBody = $j("#returned-products-table tbody");
+        tableBody.empty(); // Clear previous rows
+
+        if (returnedProducts.length === 0) {
+            tableBody.append('<tr><td colspan="5" class="text-center">No returned products for this invoice.</td></tr>');
+            return;
+        }
+
+       returnedProducts.forEach(function (product) {
+        if (product.return_items && product.return_items.length > 0) {
+            product.return_items.forEach(function (item) {
+                tableBody.append(`
+                    <tr>
+                        <td>${item.product.name}</td>
+                        <td>${item.quantity}</td>
+                        <td>${item.salable_status}</td>
+                        <td>${item.reason || 'N/A'}</td>
+                        <td>${item.return_amount}</td>
+                    </tr>
+                `);
+            });
+        }
+    });
+    }
+
+
     function renderProductList(products) {
     var tableBody = $j("#product-table tbody");
     tableBody.empty(); // Clear previous rows
@@ -283,10 +326,7 @@ $j(document).ready(function() {
             success: function(response) {
                 console.log('Return submitted successfully', response);
                 $j("#returnProductModal").dialog("close");
-                alert('Product return processed successfully!');
-                $(`.edit-product[data-id="${productId}"]`).removeClass('btn-info').addClass('btn-success').text('Returned');
-
-       
+                renderReturnedProducts(response.returned_products);
             },
             error: function(error) {
                 console.error('Error submitting return:', error);
