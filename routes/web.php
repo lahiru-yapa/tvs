@@ -85,6 +85,8 @@ Route::middleware(['auth'])->group(function () {
         
         Route::get('/all-returns', [ReturnProductController::class, 'allReturns'])->name('allReturns');
         Route::get('/add-returns', [ReturnProductController::class, 'addReturns'])->name('addReturns');
+        Route::get('/get-invoice-products', [ReturnProductController::class, 'getInvoiceProducts']);
+        Route::post('/return-product', [ReturnProductController::class, 'returnProduct'])->name('product.return');
 
         Route::get('/all-product', [ProductController::class, 'allproducts'])->name('allproduct');
         Route::get('/add-product', [ProductController::class, 'addproduct'])->name('addproduct');

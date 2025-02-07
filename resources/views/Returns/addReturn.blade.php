@@ -22,6 +22,46 @@
                         </li>
                     </ul>
                 </div>
+
+                <!-- Modal Structure -->
+<div id="returnProductModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <h4>Return Product</h4>
+        <form id="returnProductForm">
+        @csrf
+        <input type="hidden" id="invoice-id" name="invoice_id">
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <label for="product-name">Product Name</label>
+                    <input type="text" id="product-name" name="product_name" readonly>
+                    <input type="hidden" id="productId" name="productId" readonly>
+                </div>
+
+                <div class="input-field col s12">
+                                                <select name="salable_status" id="salable_status">
+                                                    <option value="" disabled selected>-</option>
+                                                    <option value="salable">Salable</option>
+                                                    <option value="not_salable">Not Salable</option>                                      
+                                                </select>
+                                                <label>Select Shop</label>
+                                            </div>
+
+                <div class="input-field col s12">
+                    <label for="return-quantity">Return Quantity</label>
+                    <input type="number" id="return-quantity" name="return_quantity" required min="1">
+                </div>
+                <div class="input-field col s12">
+                    <label for="return-reason">Reason for Return</label>
+                    <textarea id="return-reason" name="return_reason" class="materialize-textarea" required></textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn waves-effect waves-light">Submit</button>
+            <button type="button" class="btn modal-close red">Cancel</button>
+        </form>
+    </div>
+</div>
+
                 <div class="sb2-2-3">
                     <div class="row">
                         <div class="col-md-12">
@@ -44,44 +84,29 @@
     <label for="shop-name">Shop Name</label>
     <input type="text" id="shop-name" placeholder="Shop name will be displayed here" readonly>
 </div>
+                                        </div>
+                                        <div class="row">
+    <div class="col-md-12">
+        <h5>Purchased Products for Selected Invoice</h5>
+        <table class="table table-bordered" id="product-table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="4" class="text-center">No products to display</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-                                            <div class="input-field col s6">
-                                                <input id="phone" name="name" type="text" class="validate"
-                                                    value="{{ old('name') }}">
-                                                <label for="phone">Name</label>
-                                                @error('phone')
-                                                <span class="red-text">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                            <div class="input-field col s6">
-                                                <input id="phone" name="description" type="text" class="validate"
-                                                    value="{{ old('description') }}">
-                                                <label for="phone">Description</label>
-                                                @error('phone')
-                                                <span class="red-text">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="table-responsive table-desi">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>total_amount</th>
-                                                    <th>paid_amount</th>
-                                                    <th>due_date</th>
-                                                    <th>status</th>
-                                                
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                              
-                                            </tbody>
-                                        </table>
-                                        <!-- Pagination Links -->
-                                        <div class="d-flex justify-content-center">
-                                 
-                                        </div>
-                                    </div>
                                         <div class="row">
                                             <div class="input-field col s12">
                                                 <button type="submit"
@@ -89,6 +114,19 @@
                                             </div>
                                         </div>
                                     </form>
+
+ <table id="returned-products-table" class="table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Salable Status</th>
+            <th>Reason</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
 
                                 </div>
                             </div>
@@ -153,6 +191,114 @@
             }
         });
     });
+
+
+    $j(document).ready(function () {
+    var invoices = @json($invoice->mapWithKeys(function ($item) {
+        return [$item->invoice_number => ['id' => $item->id, 'shop_name' => $item->shop->name]];
+    }));
+
+    $j("#invoice-input").autocomplete({
+        source: Object.keys(invoices),
+        select: function (event, ui) {
+            var selectedInvoice = invoices[ui.item.value];
+            $j("#shop-name").val(selectedInvoice.shop_name);
+            $j("#invoice-id").val(selectedInvoice.id);
+            
+            // Fetch and display product details
+            fetchInvoiceProducts(selectedInvoice.id);
+            
+        }
+    });
+
+    function fetchInvoiceProducts(invoiceId) {
+        $j.ajax({
+            url: '/get-invoice-products',  // Laravel route to fetch product details
+            method: 'GET',
+            data: { invoice_id: invoiceId },
+            success: function (response) {
+                renderProductList(response.products);
+            },
+            error: function () {
+                alert('Failed to fetch products. Please try again.');
+            }
+        });
+    }
+    function renderProductList(products) {
+    var tableBody = $j("#product-table tbody");
+    tableBody.empty(); // Clear previous rows
+
+    if (products.length === 0) {
+        tableBody.append('<tr><td colspan="4" class="text-center">No products found for this invoice.</td></tr>');
+        return;
+    }
+
+    products.forEach(function (product) {
+        var total = product.quantity * product.price;
+        tableBody.append(`
+            <tr>
+                <td>${product.product ? product.product.name : 'N/A'}</td>
+                <td>${product.quantity}</td>
+                   <td>${product.price}</td>
+                <td>${total.toFixed(2)}</td>
+                 <td>
+                    <button class="btn btn-info btn-sm edit-product" data-id="${product.product_id}">Return</button>
+                </td>
+            </tr>
+        `);
+    });
+}
+
+
+
+$j(document).ready(function() {
+    // Initialize the modal (if you're using jQuery UI)
+    $j("#returnProductModal").dialog({ autoOpen: false, modal: true, width: 500 });
+
+    // Handle click event for Return button
+    $j(document).on('click', '.edit-product', function(e) {
+        e.preventDefault();  // Prevent default action (page reload)
+
+        var productId = $j(this).data('id');
+        var productName = $j(this).closest('tr').find('td:first').text(); // Get product name from table
+
+        // Populate modal fields
+        $j("#product-name").val(productName);
+        $j("#productId").val(productId);
+        $j("#returnProductModal").dialog("open");
+    });
+
+    // Handle form submission inside the modal
+    $j("#returnProductForm").on('submit', function(e) {
+        e.preventDefault(); // Prevent form submission from refreshing the page
+
+        var formData = $j(this).serialize();
+        console.log('Form Data:', formData); // Debugging
+
+        // AJAX request to submit return data
+        $j.ajax({
+            url: '/return-product',  // Change to your actual route
+            method: 'POST',
+            data: formData,
+            success: function(response) {
+                console.log('Return submitted successfully', response);
+                $j("#returnProductModal").dialog("close");
+                alert('Product return processed successfully!');
+                $(`.edit-product[data-id="${productId}"]`).removeClass('btn-info').addClass('btn-success').text('Returned');
+
+       
+            },
+            error: function(error) {
+                console.error('Error submitting return:', error);
+                alert('Failed to process the return. Please try again.');
+            }
+        });
+    });
+});
+
+
+});
+
 </script>
 
 

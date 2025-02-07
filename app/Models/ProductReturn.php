@@ -8,29 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class ProductReturn extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'return_id'; // Set primary key
+    protected $table = 'product_returns';
+
     protected $fillable = [
-        'invoice_id',
         'shop_id',
+        'invoice_id',
         'return_date',
-        'return_reason',
-        'status',
+        'salable_status',
         'total_amount',
     ];
 
-    // Define relationships
-    public function invoice()
+    public function returnItems(): HasMany
     {
-        return $this->belongsTo(Invoice::class, 'invoice_id');
-    }
-
-    public function shop()
-    {
-        return $this->belongsTo(Shop::class, 'shop_id');
-    }
-
-    public function returnItems()
-    {
-        return $this->hasMany(ReturnItem::class, 'return_id');
+        return $this->hasMany(ReturnItem::class, 'product_return_id');
     }
 }
