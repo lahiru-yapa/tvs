@@ -84,6 +84,20 @@
     </div>
 </li>
 
+<li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-h-square" aria-hidden="true"></i>
+Financial</a>
+    <div class="collapsible-body left-sub-menu">
+      
+        <ul>
+            <li><a href="{{ route('allfinancial') }}">All Financial</a>
+            </li>
+            <li><a href="{{ route('addfinancial') }}">Add Financial</a>
+            </li>
+        </ul>
+      
+    </div>
+</li>
+
 @endif
 <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-picture-o" aria-hidden="true"></i>
         Invoice</a>

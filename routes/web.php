@@ -10,7 +10,7 @@ use App\Http\Controllers\RefController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReturnProductController;
-
+use App\Http\Controllers\ImportExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +48,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/ref-invoices/filter', [RefController::class, 'filterIndex'])->name('invoices.filter');
         Route::get('/ref-add-invoice', [RefController::class, 'addinvoice'])->name('ref.addinvoice');
         Route::post('/ref-invoices/add', [RefController::class, 'storeInvoice'])->name('ref.invoice.storeInvoice');
+    
+        Route::controller(ImportExportController::class)->group(function(){
+            Route::get('import_export', 'importExport');
+            Route::post('import', 'import')->name('import');
+            Route::get('export', 'export')->name('export');
+        });
     });
     
     Route::middleware(['stock'])->group(function () {
@@ -111,10 +117,11 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/invoice/{id}', [InvoiceController::class, 'updateInvoice'])->name('invoice.updateInvoice');
         Route::get('/invoices/filter', [InvoiceController::class, 'filterIndex'])->name('admin.invoices.filter');
 
-
-
         Route::get('/admin/invoice-chart', [DashboardController::class, 'showInvoiceChart'])->name('invoices.chart');
 
+        Route::get('/all-financial', [ProductController::class, 'allfinancial'])->name('allfinancial');
+        Route::get('/add-financial', [ProductController::class, 'addfinancial'])->name('addfinancial');
+      
     });
     
 });

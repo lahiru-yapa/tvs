@@ -35,6 +35,7 @@
     <option value="rejected" {{ request()->get('filter') == 'rejected' ? 'selected' : '' }}>Rejected</option>
     <option value="pending" {{ request()->get('filter') == 'pending' ? 'selected' : '' }}>Pending</option>
 </select>
+<a  href="{{ route('export') }}" class="btn btn-success">Export to Excel</a>
 
 <script>
     function filterStatusChange(selectElement) {
