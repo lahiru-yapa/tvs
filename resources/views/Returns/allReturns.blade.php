@@ -39,26 +39,26 @@
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
-                                                    <th>Sku</th>
                                                     <th>Description</th>
                                                     <th>Price</th>
                                                     <th>Stock</th>
-                                                    <th>Category</th>
+                                                    <th>Invoice</th>
                                                     <th>Edit</th>
                                                     <th>View</th>
                                                     <th>Delete</th>
                                                 </tr>
                                             </thead>
+                                         
                                             <tbody>
                                                 @foreach($products as $product)
                                                 <tr>
-                                               
+                                            
                                                 <td>{{$product->name}}</td>
                                                     <td>{{$product->sku}}</td>
                                                     <td>{{$product->description}}</td>
                                                     <td>{{$product->price}}</td>
                                                     <td>{{$product->stock}}</td>
-                                                    <td>{{$product->category}}</td>
+                                                 
                                                     <td>
                                                     <a href="{{ route('product.edit', $product->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                     </td>

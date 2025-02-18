@@ -16,8 +16,8 @@ class ReturnProductController extends Controller
 {
     public function allReturns()
     {
-        $products = Product::where('delete_flag', 0)->get();
-        return view('Products.allProducts', compact('products'));
+        $products = Product::get();
+        return view('Returns.allReturns', compact('products'));
     }
 
     public function addReturns (Request $request)

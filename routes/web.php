@@ -11,6 +11,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReturnProductController;
 use App\Http\Controllers\ImportExportController;
+use App\Http\Controllers\ExpenseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -119,9 +120,12 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/admin/invoice-chart', [DashboardController::class, 'showInvoiceChart'])->name('invoices.chart');
 
-        Route::get('/all-financial', [ProductController::class, 'allfinancial'])->name('allfinancial');
-        Route::get('/add-financial', [ProductController::class, 'addfinancial'])->name('addfinancial');
-      
+        Route::get('/all-financial', [ExpenseController::class, 'index'])->name('allfinancial');
+        Route::get('/add-financial', [ExpenseController::class, 'create'])->name('addfinancial');
+        Route::get('financial/{id}/edit', [ExpenseController::class, 'edit'])->name('financial.edit');
+        Route::get('/financial/delete/{id}', [ExpenseController::class, 'delete'])->name('financial.delete');
+        Route::get('financial/{id}/view', [ExpenseController::class, 'view'])->name('financial.view');
+        Route::post('financial', [ExpenseController::class, 'store'])->name('financial.store');
     });
     
 });
