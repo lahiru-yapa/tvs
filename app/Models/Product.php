@@ -25,6 +25,10 @@ class Product extends Model
     {
         return $this->belongsTo(Shop::class);
     }
-
+   // Relationship to ReturnItem
+   public function returnItems(): HasMany
+   {
+       return $this->hasMany(ReturnItem::class, 'product_id');
+   }
 
 }

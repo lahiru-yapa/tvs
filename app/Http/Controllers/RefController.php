@@ -239,13 +239,14 @@ foreach ($selectedProducts as $productData) {
                     'price' => $productData['amount'],
                     'total' => $total,
                 ]);
+
+                Product::where('id', $productData['id'])->decrement('stock', $productData['count']);
             }
           
             DB::commit(); // Commit transaction if everything is successful
     
             return redirect()->route('refinvoice.index')->with('success', 'Invoice added successfully!');
         } catch (\Exception $e) {
-            dd($e);
             DB::rollBack(); // Rollback on error
             return redirect()->back()->withErrors(['error' => 'Failed to add invoice: ' . $e->getMessage()]);
         }

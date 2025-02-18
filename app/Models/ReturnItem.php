@@ -4,29 +4,32 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 
 class ReturnItem extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'return_item_id'; // Set primary key
+    protected $table = 'return_items';
+
     protected $fillable = [
-        'return_id',
+        'product_return_id',
         'product_id',
         'quantity',
-        'unit_price',
+        'salable_status',
         'reason',
+        'return_amount',
     ];
 
-   
+    public function productReturn(): BelongsTo
+    {
+        return $this->belongsTo(ProductReturn::class, 'product_return_id');
+    }
 
     public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Product::class);
     }
 
-    // Define relationships
-    public function return()
-    {
-        return $this->belongsTo(ProductReturn::class, 'return_id');
-    }
+ 
 }

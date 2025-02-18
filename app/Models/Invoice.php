@@ -27,7 +27,11 @@ class Invoice extends Model
         return $this->belongsTo(Shop::class);
     }
 
-
+    public function productReturns()
+    {
+        return $this->hasMany(ProductReturn::class, 'invoice_id');
+    }
+    
 
 public function invoiceProducts()
 {
