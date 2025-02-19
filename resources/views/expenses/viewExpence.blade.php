@@ -27,10 +27,23 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="box-inn-sp">
-                                <div class="inn-title">
-                                    <h4>Finance Details</h4>
-                                    <a href="{{ route('addfinancial') }}" class="btn btn-primary">Add New Expense</a>
-                                </div>
+                            <div class="inn-title grid-container">
+    <h4 class="mb-0">Finance Details</h4>
+    <a href="{{ route('addfinancial') }}" class="btn btn-primary">Add New Expense</a>
+</div>
+<style>
+    .grid-container {
+    display: grid;
+    grid-template-columns: auto max-content; /* Title takes available space, button adjusts */
+    align-items: center; /* Vertically aligns elements */
+    gap: 10px; /* Adds spacing between elements */
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+    margin-bottom: 10px; /* Adds spacing between sections */
+}
+
+</style>
                                 <div class="tab-inn">
                                     <div class="table-responsive table-desi">
                                     <table class="table table-hover">
