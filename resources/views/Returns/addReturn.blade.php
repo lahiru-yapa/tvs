@@ -192,7 +192,6 @@
         });
     });
 
-
     $j(document).ready(function () {
     var invoices = @json($invoice->mapWithKeys(function ($item) {
         return [$item->invoice_number => ['id' => $item->id, 'shop_name' => $item->shop->name]];
