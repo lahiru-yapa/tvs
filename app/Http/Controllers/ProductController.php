@@ -39,14 +39,13 @@ class ProductController extends Controller
     }
     public function store(Request $request)
     {
-    
+      
             // Validation
             $request->validate([
                 'price' => 'required|numeric|min:0',
                 'sell_price' => 'required|numeric|min:0',
                 'stock' => 'required|integer|min:0',
                 'category' => 'required|string',
-                'supplier_id' => 'required|exists:suppliers,id',
                 'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
                 'description' => 'required|string',
                 'name' => 'required|string',
@@ -65,7 +64,7 @@ class ProductController extends Controller
                     'price' => $request->price,
                     'stock' => $request->stock,
                     'category' => $request->category,
-                    'supplier_id' => $request->supplier_id, // Initial balance is the credit limit
+                    'supplier_id' => 1, // Initial balance is the credit limit
                     'photo' => $photoPath, 
                     'sell_price'=>$request->sell_price,
                     'description'=>$request->description,
@@ -85,7 +84,6 @@ class ProductController extends Controller
             'sell_price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'category' => 'required|string',
-            'supplier_id' => 'required|exists:suppliers,id',
             'description' => 'required|string',
             'name' => 'required|string',
         ]);
@@ -105,7 +103,7 @@ class ProductController extends Controller
                     'price' => $request->price,
                     'stock' => $request->stock,
                     'category' => $request->category,
-                    'supplier_id' => $request->supplier_id, // Initial balance is the credit limit
+                 
                     'photo' => $request->photo, 
                     'sell_price'=>$request->sell_price,
                     'description'=>$request->description,

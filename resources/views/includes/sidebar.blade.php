@@ -68,6 +68,20 @@
 @endif
 
 @if(auth()->check() && auth()->user()->role === 'admin')
+
+
+<li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-user" aria-hidden="true"></i>
+        GRN</a>
+                <div class="collapsible-body left-sub-menu">
+                    <ul>
+                        <li><a href="{{ route('grns.index') }}">All GRN</a></li>
+            </li>
+            <li><a href="{{ route('grns.create') }}">Add New GRN</a>
+            </li>
+        </ul>
+    </div>
+    </li>
+
 <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-h-square" aria-hidden="true"></i>
         Products</a>
     <div class="collapsible-body left-sub-menu">

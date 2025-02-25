@@ -21,4 +21,9 @@ class Supplier extends Model
         'credit_limit',
         'current_balance',
     ];
+
+    public function grns()
+    {
+        return $this->hasMany(GRN::class, 'warehouse_id');
+    }
 }

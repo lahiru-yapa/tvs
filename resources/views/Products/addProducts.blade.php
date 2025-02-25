@@ -44,22 +44,14 @@
                                                 @enderror
                                             </div>
                                             <div class="input-field col s6">
-                                                <select name="supplier_id">
-                                                    <option value="" disabled selected>Choose Supplier</option>
-                                                    @foreach($supllier as $item)
-                                                    <option value="{{$item->id}}">{{$item->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                                <label>Select Category</label>
-                                            </div>
-                                            <div class="input-field col s6">
-                                                <input id="phone" name="description" type="text" class="validate"
+                                            <input id="phone" name="description" type="text" class="validate"
                                                     value="{{ old('description') }}">
                                                 <label for="phone">Description</label>
                                                 @error('phone')
                                                 <span class="red-text">{{ $message }}</span>
                                                 @enderror
                                             </div>
+                                          
                                         </div>
                                         <div class="row">
                                             <div class="input-field col s6">
@@ -85,19 +77,20 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="input-field col s6">
-                                                <select name="category">
-                                                    <option value="" disabled selected>Choose Category</option>
-                                                    <option value="1">Main Where Houses</option>
-                                                    <option value="2">Educations</option>
-                                                    <option value="3">Medical</option>
-                                                    <option value="3">Health</option>
-                                                    <option value="3">Fitness</option>
-                                                    <option value="3">Tution</option>
-                                                    <option value="3">Software</option>
-                                                </select>
-                                                <label>Select Category</label>
-                                            </div>
+                                        <div class="input-field col s6">
+    <select name="category">
+        <option value="" disabled selected>Choose Category</option>
+        <option value="1">Main Warehouses</option>
+        <option value="2">Education</option>
+        <option value="3">Medical</option>
+        <option value="4">Health</option>
+        <option value="5">Fitness</option>
+        <option value="6">Tuition</option>
+        <option value="7">Software</option>
+    </select>
+    <label>Select Category</label>
+</div>
+
                                             <div class="input-field col s6">
                                                 <input id="stock" name="stock" type="text" class="validate"
                                                     value="{{ old('stock') }}">

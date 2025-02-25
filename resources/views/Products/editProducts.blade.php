@@ -39,7 +39,7 @@
                         <div class="col-md-12">
                             <div class="box-inn-sp">
                                 <div class="inn-title">
-                                    <h4>Edit supplier Details</h4>
+                                    <h4>Edit Product Details</h4>
                                 </div>
                                 <div class="tab-inn">
                                     <form action="{{ route('product.editProduct') }}" method="POST"
@@ -104,7 +104,7 @@
 
                                             <div class="input-field col s6">
                                                 <select name="supplier_id">
-                                                    <option value="" disabled selected>Choose Supplier</option>
+                                                    <option value="" disabled selected>Choose Category</option>
                                                     @foreach($allSuplliers as $item)
                                                     <option value="{{ $item->id }}" @if(isset($supplier) && $item->id ==
                                                         $supplier->id) selected @endif>
@@ -116,10 +116,10 @@
                                                 <label>Select Category</label>
                                             </div>
                                             <div class="input-field col s6">
-                                                <input id="supplier" name="supplier" type="text" class="validate"
-                                                    value="{{ $supplier->name }}">
-                                                <label for="supplier">Supplier</label>
-                                                @error('supplier')
+                                            <input id="sell_price" name="sell_price" type="text" class="validate"
+                                                          value="{{ $product->sell_price }}">
+                                                <label for="sell_price">Sell Price</label>
+                                                @error('city')
                                                 <span class="red-text">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -154,14 +154,7 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="input-field col s6">
-                                                <input id="sell_price" name="sell_price" type="text" class="validate"
-                                                          value="{{ $product->sell_price }}">
-                                                <label for="sell_price">Sell Price</label>
-                                                @error('city')
-                                                <span class="red-text">{{ $message }}</span>
-                                                @enderror
-                                            </div>  
+                                        
                                         </div>
                                         <div class="row">
                                             <div class="input-field col s6">

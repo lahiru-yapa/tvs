@@ -31,4 +31,10 @@ class Product extends Model
        return $this->hasMany(ReturnItem::class, 'product_id');
    }
 
+    public function grnItems()
+    {
+        return $this->hasMany(GRNItem::class, 'product_id');
+    }
+
+
 }
