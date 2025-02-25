@@ -13,6 +13,7 @@ use App\Http\Controllers\ReturnProductController;
 use App\Http\Controllers\ImportExportController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\GRNController;
 
 /*
 |--------------------------------------------------------------------------
@@ -130,6 +131,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('financial', [ExpenseController::class, 'store'])->name('financial.store');
 
         Route::resource('warehouses', WarehouseController::class);
+        Route::resource('grns', GRNController::class);
+
+        Route::controller(ImportExportController::class)->group(function(){
+            Route::get('import_export_admin', 'importExport');
+            Route::post('import', 'import_admin')->name('import');
+            Route::get('export_admin', 'export_admin')->name('export_admin');
+        });
     });
     
 });

@@ -10,4 +10,9 @@ class Warehouse extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'location', 'description']; // Only necessary fields
+
+    public function grns()
+    {
+        return $this->hasMany(GRN::class, 'supplier_id');
+    }
 }
