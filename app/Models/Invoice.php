@@ -20,6 +20,7 @@ class Invoice extends Model
         'invoice_date',
         'payment_date',
         'description',
+        'warehouse_id',
     ];
     
     public function shop()

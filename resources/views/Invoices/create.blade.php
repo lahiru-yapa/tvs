@@ -61,34 +61,34 @@
                                             </div>
 
                                             <div class="input-field col s12 m4 l3">
-                                                <select name="product_name2" id="product_name2">
+    <select name="warehouse" id="warehouse" onchange="getProducts()" >
+        <option value="" disabled selected>-</option>
+        @foreach($warehouse as $item)
+            <option value="{{ $item->id }}">{{ $item->name }}</option>
+        @endforeach
+    </select>
+    <label>Select Warehouse</label>
+</div>
 
-                                                    <option value="" disabled selected>-</option>
-
-                                                    @foreach($products as $item)
-                                                    <option value="{{ $item->name }}">{{ $item->name }} -
-                                                        {{ $item->stock }}</option>
-                                                    @endforeach
-
-                                                </select>
-                                                <label>Select Product</label>
-                                            </div>
+                                            <div class="input-field col s12 m4 l3">
+    <select name="product_name2" id="product_name2">
+    </select>
+    <label>Select Product</label>
+</div>
 
                                         </div>
                                       
-                                        <div class="row">
+                                        <!-- <div class="row">
                                             <div class="input-field col s12 m4 l3">
-                                                <!-- col s12 for mobile, m4 for medium (tablet), l3 for large (desktop) -->
+                                              
                                                 <input id="product_name" class="form-control mr-sm-2" type="search"
                                                     placeholder="Search Product" aria-label="Search"
                                                     list="product_suggestions"
                                                     style="border: 1px solid #9e9e9e; border-radius: 10px;">
                                                 <datalist id="product_suggestions">
-                                                    <!-- Suggestions will be dynamically added here -->
                                                 </datalist>
                                             </div>
-
-                                        </div>
+                                        </div> -->
                                         <input type="hidden" id="totalAmountInput" name="totalAmount" value="0.00">
                                         <div class="row">
                                             <div class="table-container">
@@ -255,6 +255,50 @@
     </div>
 
     <!--== BOTTOM FLOAT ICON ==-->
+    <!-- //get where house relative products and load -->
+    <script>
+  function getProducts() {
+    let warehouseId = document.getElementById('warehouse').value;
+    let productDropdown = document.getElementById('product_name2');
+
+    if (warehouseId) {
+        fetch(`/get-products-by-warehouse/${warehouseId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Clear previous options
+                productDropdown.innerHTML = '<option value="" disabled selected>-</option>';
+
+                if (data.success && data.data.length > 0) {
+                    data.data.forEach(product => {
+                        let option = document.createElement("option");
+                        option.value = product.id;
+                        option.textContent = `${product.name} - Stock: ${product.stock} - Received: ${product.total_quantity}`;
+                        productDropdown.appendChild(option);
+                    });
+                } else {
+                    let option = document.createElement("option");
+                    option.value = "";
+                    option.textContent = "No products found";
+                    option.disabled = true;
+                    productDropdown.appendChild(option);
+                }
+
+                // **Fix Dropdown UI Issue**
+                productDropdown.style.display = "none";  
+                setTimeout(() => {
+                    productDropdown.style.display = "block";  
+                    productDropdown.focus();  // **Forces dropdown refresh**
+                }, 10);
+            })
+            .catch(error => {
+                console.error("Error fetching products:", error);
+            });
+    }
+}
+
+</script>
+
+
 
 
     @include('includes.js')

@@ -45,145 +45,74 @@
 
 
                                 <div class="tab-inn">
-                                    <form action="{{ route('ref.invoice.storeInvoice') }}" method="POST">
-                                        @csrf
-                                        <div class="row">
-                                            <div class="input-field col s12 m4 l3">
-                                                <select name="shop_id" id="shop-select">
-                                                    <option value="" disabled selected>-</option>
-                                                    @foreach($shops as $item)
-                                                    <option value="{{$item->id}}">{{$item->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                                <label>Select Shop</label>
-                                            </div>
-                                            <div class="input-field col s12 m4 l3" id="credit-limit-container"
-                                                style="display: none;">
-                                                <input type="text" id="credit-limit" readonly>
-
-                                            </div>
-
-                                          
-                                            <div class="input-field col s12 m4 l3">
-                                                <select name="product_name2" id="product_name2">
-
-                                                    <option value="" disabled selected>-</option>
-
-                                                    @foreach($products as $item)
-                                                    <option value="{{ $item->name }}">{{ $item->name }} -
-                                                        {{ $item->stock }}</option>
-                                                    @endforeach
-
-                                                </select>
-                                                <label>Select Product</label>
-                                            </div>
-
-                                        </div>
-                              
-                                        <div class="row">
-                                            <div class="input-field col s12 m4 l3">
-                                                <!-- col s12 for mobile, m4 for medium (tablet), l3 for large (desktop) -->
-                                                <input id="product_name" class="form-control mr-sm-2" type="search"
-                                                    placeholder="Search Product" aria-label="Search"
-                                                    list="product_suggestions"
-                                                    style="border: 1px solid #9e9e9e; border-radius: 10px;">
-                                                <datalist id="product_suggestions">
-                                                    <!-- Suggestions will be dynamically added here -->
-                                                </datalist>
-                                            </div>
-
-                                        </div>
-                                        <input type="hidden" id="totalAmountInput" name="totalAmount" value="0.00">
-                                        <div class="row">
-                                            <div class="table-container">
-                                                <table id="product-details-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Image</th>
-                                                            <th>Name</th>
-                                                            <th>Amount</th>
-                                                            <th>Stock</th>
-                                                            <th>Count</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="selected-products-body">
-                                                        <!-- Product rows will be added dynamically -->
-                                                    </tbody>
-                                                </table>
-                                                <div class="total-amount">
-                                                    <strong>Total Amount: $<span id="total-amount">0.00</span></strong>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-
-                                        <input type="hidden" id="selected-products" name="selected_products">
-
-
-
-    <!-- 🔹 Return Checkbox -->
+                                <form action="{{ route('ref.invoice.storeInvoice') }}" method="POST">
+    @csrf
     <div class="row">
-        <label>
-            <input type="checkbox" id="return-checkbox">
-            <span style="color: red">Add Return Product</span>
-        </label>
+        <div class="col-12 col-md-4 col-lg-3">
+            <label>Select Shop</label>
+            <select class="form-control" name="shop_id" id="shop-select">
+                <option value="" disabled selected>-</option>
+                @foreach($shops as $item)
+                <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+            </select>
+            <div id="credit-limit-container" style="display: none;">
+                <input type="text" class="form-control mt-2" id="credit-limit" readonly>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 col-lg-3">
+            <label>Select Warehouse</label>
+            <select class="form-control" name="warehouse" id="warehouse">
+                <option value="" disabled selected>-</option>
+                @foreach($warehouse as $item)
+                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="col-12 col-md-4 col-lg-3">
+            <label>Select Product</label>
+            <select class="form-control" name="product_name2" id="product_name2">
+                <option value="" disabled selected>-</option>
+            </select>
+        </div>
     </div>
 
-    <!-- 🔹 Return Products Section (Initially Hidden) -->
-    <div class="row" id="return-section" style="display: none;">
-                       
-                                       <div class="table-container" style="max-height: 300px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px;">
-                                             <div class="input-field col s12 m4 l3">
-                                                <select name="product_name3" id="product_name3">
-
-                                                    <option value="" disabled selected>-</option>
-
-                                                    @foreach($products as $item)
-                                                    <option value="{{ $item->name }}">{{ $item->name }} -
-                                                        {{ $item->stock }}</option>
-                                                    @endforeach
-
-                                                </select>
-                                                <label>Select Product</label>
-                                            </div> 
-
-                                            <input type="hidden" id="totalAmountInput2" name="totalAmount" value="0.00">
-                                       </div>
-                                        <div class="">
-                                            <div class="table-container">
-                                                <table id="product-details-table2">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Image</th>
-                                                            <th>Name</th>
-                                                            <th>Amount</th>
-                                                            <th>Stock</th>
-                                                            <th>Count</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="selected-products-body2">
-                                                        <!-- Product rows will be added dynamically -->
-                                                    </tbody>
-                                                </table>
-                                                <div class="total-amount">
-                                                    <strong>Total Amount: $<span id="total-amount2">0.00</span></strong>
-                                                </div>
-
-                                            </div>
-                                        </div>
+    <input type="hidden" id="totalAmountInput" name="totalAmount" value="0.00">
+    <div class="row mt-3">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="product-details-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Stock</th>
+                        <th>Count</th>
+                        <th>WhereHouse</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="selected-products-body">
+                </tbody>
+            </table>
+            <div class="total-amount mt-2">
+                <strong>Total Amount: $<span id="total-amount">0.00</span></strong>
+            </div>
+        </div>
     </div>
+
+    <input type="hidden" id="selected-products" name="selected_products">
+
     <input type="hidden" id="selected-products2" name="selected_products2">
-       
-    <div class="row">
-                                            <div class="input-field col s12">
-                                                <button type="submit"
-                                                    class="waves-effect waves-light btn-large">Submit</button>
-                                            </div>
-                                        </div>
-                                    </form>
+    <div class="row mt-3">
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </div>
+    </div>
+</form>
+
 
                                     <!-- Add the responsive styles -->
                                     <style>
@@ -300,9 +229,18 @@
                                         }
                                     }
 
-                                    .select-dropdown {
-                                        padding-top: 20px !important;
-                                    }
+                                   
+                                    /* Make sure the select and options are visible */
+#product_name2 {
+    visibility: visible !important;
+    display: block !important;
+}
+
+
+
+
+
+
                                     </style>
 
                                 </div>
@@ -317,7 +255,49 @@
     <!--== BOTTOM FLOAT ICON ==-->
 
 
-    @include('includes.js')
+    @include('includes.js2')
+
+    <script>
+ $(document).ready(function () {
+    $('#warehouse').change(function () {
+        let warehouseId = $(this).val();
+
+        if (warehouseId) {
+            $.ajax({
+                url: "{{ url('get-products-by-warehouse') }}/" + warehouseId,
+                type: "GET",
+                dataType: "json",
+                success: function (response) {
+                    var products = response.data; // Array of product objects with name and stock
+                    console.log("products", products);
+
+                    // Clear previous options
+                    var productSelect = $('#product_name2');
+                    productSelect.empty();
+
+                    // Add a default placeholder option
+                    productSelect.append('<option value="" disabled selected>select product</option>');
+
+                    // Loop through products and add them as options
+                    $.each(products, function (index, item) {
+                        productSelect.append('<option value="' + item.id + '">' + item.name + ' (' + item.stock + ')</option>');
+                    });
+
+   
+                    // Force reflow and refresh the select dropdown
+                    productSelect.prop('selectedIndex', 0);
+                    productSelect.trigger('change');
+                },
+                error: function () {
+                    console.log("Error fetching products.");
+                }
+            });
+        }
+    });
+});
+
+</script>
+
     <script>
     $(document).ready(function() {
         // Hide the credit limit container on page load
@@ -358,36 +338,17 @@
     });
 
     $(document).ready(function() {
-        // Search for products as user types
-        $('#product_name').on('keyup', function() {
-            var query = $(this).val(); // Get input value
-
-            $.ajax({
-                url: "{{ route('products.suggest') }}", // The route to fetch product suggestions
-                method: 'GET',
-                data: {
-                    query: query
-                },
-                success: function(response) {
-                    var suggestions = response; // Array of product names
-                    console.log("suggestions", suggestions);
-                    // Clear the previous suggestions
-                    var datalist = $('#product_suggestions');
-                    datalist.empty();
-
-                    // Add new suggestions
-                    $.each(suggestions, function(name, stock) {
-                        datalist.append('<option value="' + name + ' (' + stock +
-                            ')">');
-                    });
-                }
-            });
-        });
+       
 
         // Handle when user selects a product
-        $('#product_name, #product_name2').on('change', function() {
+        $('#product_name2').on('change', function() {
             var selectedProductName = $(this).val(); // Get the selected product name
+            var selectedWarehouse = $('#warehouse').val(); // Get the selected warehouse ID
 
+if (!selectedWarehouse) {
+    alert("Please select a warehouse first.");
+    return;
+}
             // Fetch product details via AJAX
             $.ajax({
                 url: "{{ route('products.details') }}", // Your route to fetch product details
@@ -412,6 +373,7 @@
                            <input type="number" name="counts[${response.id}]" class="form-control count-input" value="1" min="1" max="${Math.max(0, response.stock - 2)}"/>
 
                            </td>
+                           <td>${$('#warehouse option:selected').text()}</td> 
                             <td><button type="button" class="remove-product-btn">Remove</button></td>
                         </tr>
                     `;
@@ -424,7 +386,8 @@
                             id: response.id,
                             name: response.name,
                             amount: response.amount,
-                            image: response.image
+                            image: response.image,
+                            warehouse_id: selectedWarehouse,
                         });
                         $('#selected-products').val(JSON.stringify(selectedProducts));
                     }
@@ -637,17 +600,6 @@
         // Initialize total amount calculation on page load
         calculateTotalAmount();
     });
-
-
-    document.addEventListener("DOMContentLoaded", function () {
-    const returnCheckbox = document.getElementById("return-checkbox");
-    const returnSection = document.getElementById("return-section");
-
-    returnCheckbox.addEventListener("change", function () {
-        // Show the return section when checked, hide when unchecked
-        returnSection.style.display = this.checked ? "block" : "none";
-    });
-});
 
     </script>
 </body>
