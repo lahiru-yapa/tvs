@@ -57,6 +57,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('import', 'import')->name('import');
             Route::get('export', 'export')->name('export');
         });
+        Route::get('/get-products-by-warehouse/{warehouseId}', [InvoiceController::class, 'getProductsByWarehouse'])->name('get-products-by-warehouse');
+
     });
     
     Route::middleware(['stock'])->group(function () {
@@ -129,6 +131,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/financial/delete/{id}', [ExpenseController::class, 'delete'])->name('financial.delete');
         Route::get('financial/{id}/view', [ExpenseController::class, 'view'])->name('financial.view');
         Route::post('financial', [ExpenseController::class, 'store'])->name('financial.store');
+        Route::put('/financial/{id}', [ExpenseController::class, 'update'])->name('financial.update');
 
         Route::resource('warehouses', WarehouseController::class);
         Route::resource('grns', GRNController::class);
@@ -138,6 +141,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('import', 'import_admin')->name('import');
             Route::get('export_admin', 'export_admin')->name('export_admin');
         });
+
+     
     });
     
 });
