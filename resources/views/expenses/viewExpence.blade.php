@@ -19,7 +19,7 @@
                     <ul>
                         <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
                         </li>
-                        <li class="active-bre"><a href="#"> Ui Form</a>
+                        <li class="active-bre"><a href="#">Finance</a>
                         </li>
                     </ul>
                 </div>
@@ -27,11 +27,10 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="box-inn-sp">
-                                <div class="inn-title grid-container">
-                                <h4>User Details</h4>
-    <a href="{{ route('addshopes') }}" class="btn btn-primary">Add New Shop</a>
+                            <div class="inn-title grid-container">
+    <h4 class="mb-0">Finance Details</h4>
+    <a href="{{ route('addfinancial') }}" class="btn btn-primary">Add New Expense</a>
 </div>
-
 <style>
     .grid-container {
     display: grid;
@@ -47,30 +46,35 @@
 </style>
                                 <div class="tab-inn">
                                     <div class="table-responsive table-desi">
-                                        <table class="table table-hover">
+                                    <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>Name</th>
-                                                    <th>Phone</th>
-                                                    <th>Address</th>
-                                                    <th>Note</th>
+                                                    <th>Expense type</th>
+                                                    <th>Amount</th>
+                                                    <th>Paid By</th>
+                                                    <th>expense_date</th>
+                                                 
                                                     <th>Edit</th>
+                                                    <th>View</th>
                                                     <th>Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($shops as $shop)
+                                                @foreach($expenses as $expense)
                                                 <tr>
-                                                   
-                                                <td>{{$shop->name}}</td>
-                                                    <td>{{$shop->phone}}</td>
-                                                    <td>{{$shop->address}}</td>
-                                                    <td>{{$shop->note}}</td>
+                                               
+                                                <td>{{$expense->expense_type}}</td>
+                                                <td>{{$expense->amount}}</td>
+                                                <td>{{$expense->paid_by}}</td>
+                                                <td>{{$expense->expense_date}}</td>
                                                     <td>
-                                                    <a href="{{ route('shops.edit', $shop->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                    <a href="{{ route('financial.edit', $expense->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                     </td>
                                                     <td>
-                                                     <a href="{{ route('shop.delete',$shop->id) }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                    <a href="{{ route('financial.view', $expense->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                    </td>
+                                                    <td>
+                                                     <a href="{{ route('financial.delete',$expense->id) }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                                     </td>
                                                 </tr>
                                                @endforeach

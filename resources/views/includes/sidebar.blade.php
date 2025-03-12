@@ -29,6 +29,17 @@
             <li><a href="{{ route('adduser') }}">Add New user</a>
             </li>
         </ul>
+
+
+        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-user" aria-hidden="true"></i>
+        Warehouses</a>
+                <div class="collapsible-body left-sub-menu">
+                    <ul>
+                        <li><a href="{{ route('warehouses.index') }}">All Warehouses</a></li>
+            </li>
+            <li><a href="{{ route('warehouses.create') }}">Add New Warehouses</a>
+            </li>
+        </ul>
     </div>
     </li>
 
@@ -57,6 +68,20 @@
 @endif
 
 @if(auth()->check() && auth()->user()->role === 'admin')
+
+
+<li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-user" aria-hidden="true"></i>
+        GRN</a>
+                <div class="collapsible-body left-sub-menu">
+                    <ul>
+                        <li><a href="{{ route('grns.index') }}">All GRN</a></li>
+            </li>
+            <li><a href="{{ route('grns.create') }}">Add New GRN</a>
+            </li>
+        </ul>
+    </div>
+    </li>
+
 <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-h-square" aria-hidden="true"></i>
         Products</a>
     <div class="collapsible-body left-sub-menu">
@@ -70,6 +95,34 @@
       
     </div>
 </li>
+<li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-h-square" aria-hidden="true"></i>
+        Returns</a>
+    <div class="collapsible-body left-sub-menu">
+      
+        <ul>
+            <li><a href="{{ route('allReturns') }}">All Returns</a>
+            </li>
+            <li><a href="{{ route('addReturns') }}">Add Returns</a>
+            </li>
+        </ul>
+      
+    </div>
+</li>
+
+<li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-h-square" aria-hidden="true"></i>
+Financial</a>
+    <div class="collapsible-body left-sub-menu">
+      
+        <ul>
+            <li><a href="{{ route('allfinancial') }}">All Financial</a>
+            </li>
+            <li><a href="{{ route('addfinancial') }}">Add Financial</a>
+            </li>
+        </ul>
+      
+    </div>
+</li>
+
 @endif
 <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-picture-o" aria-hidden="true"></i>
         Invoice</a>

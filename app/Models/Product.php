@@ -25,6 +25,21 @@ class Product extends Model
     {
         return $this->belongsTo(Shop::class);
     }
+   // Relationship to ReturnItem
+   public function returnItems(): HasMany
+   {
+       return $this->hasMany(ReturnItem::class, 'product_id');
+   }
 
+    public function grnItems()
+    {
+        return $this->hasMany(GRNItem::class, 'product_id');
+    }
 
+    public function warehouses()
+    {
+        return $this->belongsToMany(Warehouse::class, 'product_warehouse')
+                    ->withPivot('stock')
+                    ->withTimestamps();
+    }
 }

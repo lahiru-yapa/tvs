@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Shop;
 use App\Models\Payment;
+use App\Models\Warehouse;
 use App\Models\Invoice; // Replace with your actual model
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -17,10 +18,11 @@ class InvoiceController extends Controller
     {
 
         $invoices = Invoice::with('shop')
-        ->where('delete_flag', 0)  // Add the filter for delete_flag
+        ->where('delete_flag', 0)
+        ->orderBy('created_at', 'asc') // Ensure correct column name
         ->paginate(10);
     
-     
+    
         return view('invoices.viewInvoice', compact('invoices')); 
     }
 
@@ -38,6 +40,49 @@ class InvoiceController extends Controller
     
         return view('invoices.viewInvoice', compact('invoices'));
     }
+
+    public function getProductsByWarehouse($warehouseId)
+    {
+
+        try {
+            // Fetch products associated with GRNs for the selected warehouse
+            // $products = DB::table('g_r_n_items as gi')
+            //     ->join('g_r_n_s as g', 'gi.grn_id', '=', 'g.id')
+            //     ->join('products as p', 'gi.product_id', '=', 'p.id')
+            //     ->where('g.warehouse_id', $warehouseId)
+            //     ->select(
+            //         'p.id',
+            //         'p.name',
+            //         DB::raw('SUM(gi.quantity) as total_quantity'), // Sum total quantity received
+            //         'p.stock'
+            //     )
+            //     ->groupBy('p.id', 'p.name', 'p.stock')
+            //     ->get();
+    
+            $products = DB::table('product_warehouse')
+    ->join('products', 'product_warehouse.product_id', '=', 'products.id')
+    ->where('product_warehouse.warehouse_id', $warehouseId)
+    ->select('products.id', 'products.name', 'products.sku', 'product_warehouse.stock')
+    ->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $products
+            ]);
+        } catch (\Exception $e) {
+           
+            // Log the error if needed
+            \Log::error('Error fetching products for warehouse: ' . $e->getMessage());
+    
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while fetching products.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
+
 
     public function updateDescription(Request $request)
     {
@@ -77,8 +122,9 @@ class InvoiceController extends Controller
         $shops = Shop::all();
         $user =  auth()->user()->name;
         $products = Product::all();
+        $warehouse = Warehouse::all();
 
-        return view('invoices.create', compact('shops', 'user', 'products'));
+        return view('invoices.create', compact('shops', 'user', 'products','warehouse'));
     }
 
 
@@ -128,11 +174,10 @@ class InvoiceController extends Controller
     // Fetch product details based on the selected product name
     public function getProductDetails(Request $request)
     {
+    //  $productName = preg_replace('/\s*\(.*?\)/', '', $request->get('product_name'));
+$productId=$request->query('product_name');
 
-       $productName = preg_replace('/\s*\(.*?\)/', '', $request->get('product_name'));
-
-
-        $product = Product::where('name', $productName)->first();
+        $product = Product::where('id', $productId)->first();
 
         if ($product) {
             return response()->json([

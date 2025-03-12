@@ -9,7 +9,11 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\RefController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\ReturnProductController;
+use App\Http\Controllers\ImportExportController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\GRNController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +51,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/ref-invoices/filter', [RefController::class, 'filterIndex'])->name('invoices.filter');
         Route::get('/ref-add-invoice', [RefController::class, 'addinvoice'])->name('ref.addinvoice');
         Route::post('/ref-invoices/add', [RefController::class, 'storeInvoice'])->name('ref.invoice.storeInvoice');
+    
+        Route::controller(ImportExportController::class)->group(function(){
+            Route::get('import_export', 'importExport');
+            Route::post('import', 'import')->name('import');
+            Route::get('export', 'export')->name('export');
+        });
+        Route::get('/get-products-by-warehouse/{warehouseId}', [InvoiceController::class, 'getProductsByWarehouse'])->name('get-products-by-warehouse');
+
     });
     
     Route::middleware(['stock'])->group(function () {
@@ -81,6 +93,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/suppliers/delete/{id}', [SupplierController::class, 'delete'])->name('suppliers.delete');
         Route::get('suppliers/{id}/view', [SupplierController::class, 'view'])->name('suppliers.view');
 
+        
+        Route::get('/all-returns', [ReturnProductController::class, 'allReturns'])->name('allReturns');
+        Route::get('/add-returns', [ReturnProductController::class, 'addReturns'])->name('addReturns');
+        Route::get('/get-invoice-products', [ReturnProductController::class, 'getInvoiceProducts']);
+        Route::post('/return-product', [ReturnProductController::class, 'returnProduct'])->name('product.return');
+        Route::get('/get-returned-products', [ReturnProductController::class, 'getReturnedProducts']);
 
         Route::get('/all-product', [ProductController::class, 'allproducts'])->name('allproduct');
         Route::get('/add-product', [ProductController::class, 'addproduct'])->name('addproduct');
@@ -96,6 +114,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/product/store', [InvoiceController::class, 'store'])->name('invoice.store');
         Route::get('/add-invoice', [InvoiceController::class, 'addinvoice'])->name('addinvoice');
        
+        Route::post('/invoice/store', [InvoiceController::class, 'storeInvoice'])->name('invoice.storeInvoice');
         Route::post('/invoices/action', [InvoiceController::class, 'handleAction'])->name('invoices.action');
         Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
         Route::get('/invoices/{id}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
@@ -104,10 +123,26 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/invoice/{id}', [InvoiceController::class, 'updateInvoice'])->name('invoice.updateInvoice');
         Route::get('/invoices/filter', [InvoiceController::class, 'filterIndex'])->name('admin.invoices.filter');
 
-
-
         Route::get('/admin/invoice-chart', [DashboardController::class, 'showInvoiceChart'])->name('invoices.chart');
 
+        Route::get('/all-financial', [ExpenseController::class, 'index'])->name('allfinancial');
+        Route::get('/add-financial', [ExpenseController::class, 'create'])->name('addfinancial');
+        Route::get('financial/{id}/edit', [ExpenseController::class, 'edit'])->name('financial.edit');
+        Route::get('/financial/delete/{id}', [ExpenseController::class, 'delete'])->name('financial.delete');
+        Route::get('financial/{id}/view', [ExpenseController::class, 'view'])->name('financial.view');
+        Route::post('financial', [ExpenseController::class, 'store'])->name('financial.store');
+        Route::put('/financial/{id}', [ExpenseController::class, 'update'])->name('financial.update');
+
+        Route::resource('warehouses', WarehouseController::class);
+        Route::resource('grns', GRNController::class);
+
+        Route::controller(ImportExportController::class)->group(function(){
+            Route::get('import_export_admin', 'importExport');
+            Route::post('import', 'import_admin')->name('import');
+            Route::get('export_admin', 'export_admin')->name('export_admin');
+        });
+
+     
     });
     
 });

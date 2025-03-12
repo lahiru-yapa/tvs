@@ -27,12 +27,24 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="box-inn-sp">
-                                <div class="inn-title">
-                                    <h4>Product Details</h4>
-                                 
-                                    <!-- Dropdown Structure -->
-  
-                                </div>
+                            <div class="inn-title grid-container">
+    <h4 class="mb-0">Product Details</h4>
+    <a href="{{ route('addproduct') }}" class="btn btn-primary">Add New Product</a>
+</div>
+<style>
+    .grid-container {
+    display: grid;
+    grid-template-columns: auto max-content; /* Title takes available space, button adjusts */
+    align-items: center; /* Vertically aligns elements */
+    gap: 10px; /* Adds spacing between elements */
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+}
+
+</style>
+
+
                                 <div class="tab-inn">
                                     <div class="table-responsive table-desi">
                                         <table class="table table-hover">
@@ -42,7 +54,7 @@
                                                     <th>Sku</th>
                                                     <th>Description</th>
                                                     <th>Price</th>
-                                                    <th>Stock</th>
+                                                    <th>Sell price</th>
                                                     <th>Category</th>
                                                     <th>Edit</th>
                                                     <th>View</th>
@@ -57,7 +69,7 @@
                                                     <td>{{$product->sku}}</td>
                                                     <td>{{$product->description}}</td>
                                                     <td>{{$product->price}}</td>
-                                                    <td>{{$product->stock}}</td>
+                                                    <td>{{$product->sell_price}}</td>
                                                     <td>{{$product->category}}</td>
                                                     <td>
                                                     <a href="{{ route('product.edit', $product->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>

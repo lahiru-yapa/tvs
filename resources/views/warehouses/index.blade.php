@@ -13,7 +13,7 @@
         <div class="row">
             <div class="sb2-1">
                 <!-- //side bar -->
-         @include('includes.sidebar')
+                @include('includes.sidebar')
             </div>
             <div class="sb2-2">
                 <div class="sb2-2-2">
@@ -29,26 +29,29 @@
                         <div class="col-md-12">
                             <div class="box-inn-sp">
                                 <div class="inn-title">
-                                  
+
                                 </div>
 
                                 <div class="inn-title grid-container">
-    <h4 class="mb-0">User Details</h4>
-    <a href="{{ route('adduser') }}" class="btn btn-primary">Add New User</a>
-</div>
-<style>
-    .grid-container {
-    display: grid;
-    grid-template-columns: auto max-content; /* Title takes available space, button adjusts */
-    align-items: center; /* Vertically aligns elements */
-    gap: 10px; /* Adds spacing between elements */
-    padding: 10px;
-    border: 1px solid #ddd;
-    background-color: #f8f9fa;
-    margin-bottom: 10px; /* Adds spacing between sections */
-}
-
-</style>
+                                    <h4 class="mb-0">Warehouse Details</h4>
+                                    <a href="{{ route('warehouses.create') }}" class="btn btn-primary">Add New Warehouse</a>
+                                </div>
+                                <style>
+                                .grid-container {
+                                    display: grid;
+                                    grid-template-columns: auto max-content;
+                                    /* Title takes available space, button adjusts */
+                                    align-items: center;
+                                    /* Vertically aligns elements */
+                                    gap: 10px;
+                                    /* Adds spacing between elements */
+                                    padding: 10px;
+                                    border: 1px solid #ddd;
+                                    background-color: #f8f9fa;
+                                    margin-bottom: 10px;
+                                    /* Adds spacing between sections */
+                                }
+                                </style>
                                 <div class="tab-inn">
                                     <div class="table-responsive table-desi">
                                         <table class="table table-hover">
@@ -56,33 +59,28 @@
                                                 <tr>
                                                     <th>name</th>
                                                     <th>address</th>
-                                                    <th>Email</th>
-                                                    <th>role</th>
-                                                    <th>credit_limit</th>
-                                                    <th>Edit</th>
-                                                    <th>Delete</th>
+                                                    <th>Description</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($users as $user)
+                                                @foreach($warehouses as $warehouse)
                                                 <tr>
-                                                    <td>{{ $user->name }}
+                                                    <td>{{ $warehouse->name }}
                                                     </td>
-                                                    <td>{{ $user->address }}
+                                                    <td>{{ $warehouse->location }}
                                                     </td>
-                                                    <td>{{ $user->email }}</td>
-                                                    <td>{{ $user->role }}</td>
-                                                    <td>{{ $user->credit_limit }}</td>
-        
+                                                    <td>{{ $warehouse->description }}</td>
+
                                                     <td>
-                                                    <a href="{{ route('users.edit', $user->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="{{ route('users.delete',$user->id) }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                        <a href="{{ route('warehouses.edit', $warehouse->id) }}"><i
+                                                                class="fa fa-pencil-square-o"
+                                                                aria-hidden="true"></i></a>
                                                     </td>
                                                    
-                                                </tr>  
-                                                @endforeach                                            
+
+                                                </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -95,7 +93,7 @@
         </div>
     </div>
 
-  
+
     @include('includes.js')
 </body>
 

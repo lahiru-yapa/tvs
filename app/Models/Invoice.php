@@ -20,6 +20,7 @@ class Invoice extends Model
         'invoice_date',
         'payment_date',
         'description',
+        'warehouse_id',
     ];
     
     public function shop()
@@ -27,7 +28,15 @@ class Invoice extends Model
         return $this->belongsTo(Shop::class);
     }
 
-
+    public function productReturns()
+    {
+        return $this->hasMany(ProductReturn::class, 'invoice_id');
+    }
+      // Relationship: Invoice belongs to Warehouse
+      public function warehouse()
+      {
+          return $this->belongsTo(Warehouse::class, 'warehouse_id');
+      }
 
 public function invoiceProducts()
 {
