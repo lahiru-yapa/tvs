@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('due_date');
             $table->date('invoice_date');
             $table->date('payment_date')->nullable();
+            $table->text('delete_flag')->default(0);// Address of the shop
             $table->text('description')->nullable();
             $table->timestamps();
         });

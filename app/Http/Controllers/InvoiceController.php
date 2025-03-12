@@ -23,7 +23,6 @@ class InvoiceController extends Controller
         ->paginate(10);
     
     
-     
         return view('invoices.viewInvoice', compact('invoices')); 
     }
 
@@ -44,21 +43,28 @@ class InvoiceController extends Controller
 
     public function getProductsByWarehouse($warehouseId)
     {
+
         try {
             // Fetch products associated with GRNs for the selected warehouse
-            $products = DB::table('g_r_n_items as gi')
-                ->join('g_r_n_s as g', 'gi.grn_id', '=', 'g.id')
-                ->join('products as p', 'gi.product_id', '=', 'p.id')
-                ->where('g.warehouse_id', $warehouseId)
-                ->select(
-                    'p.id',
-                    'p.name',
-                    DB::raw('SUM(gi.quantity) as total_quantity'), // Sum total quantity received
-                    'p.stock'
-                )
-                ->groupBy('p.id', 'p.name', 'p.stock')
-                ->get();
+            // $products = DB::table('g_r_n_items as gi')
+            //     ->join('g_r_n_s as g', 'gi.grn_id', '=', 'g.id')
+            //     ->join('products as p', 'gi.product_id', '=', 'p.id')
+            //     ->where('g.warehouse_id', $warehouseId)
+            //     ->select(
+            //         'p.id',
+            //         'p.name',
+            //         DB::raw('SUM(gi.quantity) as total_quantity'), // Sum total quantity received
+            //         'p.stock'
+            //     )
+            //     ->groupBy('p.id', 'p.name', 'p.stock')
+            //     ->get();
     
+            $products = DB::table('product_warehouse')
+    ->join('products', 'product_warehouse.product_id', '=', 'products.id')
+    ->where('product_warehouse.warehouse_id', $warehouseId)
+    ->select('products.id', 'products.name', 'products.sku', 'product_warehouse.stock')
+    ->get();
+
             return response()->json([
                 'success' => true,
                 'data' => $products
@@ -168,7 +174,6 @@ class InvoiceController extends Controller
     // Fetch product details based on the selected product name
     public function getProductDetails(Request $request)
     {
-
     //  $productName = preg_replace('/\s*\(.*?\)/', '', $request->get('product_name'));
 $productId=$request->query('product_name');
 

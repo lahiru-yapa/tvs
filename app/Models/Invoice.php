@@ -32,7 +32,11 @@ class Invoice extends Model
     {
         return $this->hasMany(ProductReturn::class, 'invoice_id');
     }
-    
+      // Relationship: Invoice belongs to Warehouse
+      public function warehouse()
+      {
+          return $this->belongsTo(Warehouse::class, 'warehouse_id');
+      }
 
 public function invoiceProducts()
 {

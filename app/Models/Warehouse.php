@@ -15,4 +15,17 @@ class Warehouse extends Model
     {
         return $this->hasMany(GRN::class, 'supplier_id');
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_warehouse')
+                    ->withPivot('stock')
+                    ->withTimestamps();
+    }
+
+       // Relationship: Warehouse has many Invoices
+       public function invoices()
+       {
+           return $this->hasMany(Invoice::class, 'warehouse_id');
+       }
 }
