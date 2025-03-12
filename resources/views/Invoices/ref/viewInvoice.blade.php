@@ -28,7 +28,7 @@
                         <div class="col-md-12">
                             <div class="box-inn-sp">
                                 <div class="inn-title">
-                                    <h4>Product Details</h4>
+                                    <h4>Invoice Details</h4>
                                     <select id="filterStatusSelect" onchange="filterStatusChange(this)">
     <option value="">Select Status</option>
     <option value="approved" {{ request()->get('filter') == 'approved' ? 'selected' : '' }}>Approved</option>
@@ -61,6 +61,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>invoice number</th>
+                                                    <th>Wherehouse</th>
                                                     <th>shop name </th>
                                                     <th>total_amount</th>
                                                     <th>paid_amount</th>
@@ -73,6 +74,7 @@
                                                 @foreach($invoices as $item)
                                                 <tr>
                                                     <td>{{$item->invoice_number}}</td>
+                                                    <td>{{$item->warehouse->name}}</td>
                                                     <td>{{$item->shop->name}}</td>
                                                     <td>{{$item->total_amount}}</td>
                                                     <td>{{$item->paid_amount}}</td>

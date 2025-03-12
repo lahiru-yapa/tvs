@@ -35,7 +35,6 @@ class DashboardController extends Controller
      $total = DB::table('invoices')
          ->whereMonth('created_at', '=', $currentDate->copy()->subMonths($i)->month)
          ->whereYear('created_at', '=', $currentDate->copy()->subMonths($i)->year)
-         ->where('delete_flag', 0)
          ->sum('total_amount'); // Sum of total for this month
 
      // If no data, set total to 0

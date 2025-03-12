@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Models\Warehouse;
+use App\Models\ProductWarehouse;
 
 
 class RefController extends Controller
@@ -18,11 +19,9 @@ class RefController extends Controller
     public function index()
     {
 
-        $invoices = Invoice::with('shop')
-        ->where('delete_flag', 0)
+        $invoices = Invoice::with('shop','warehouse')
         ->orderBy('created_at', 'desc') // Order by latest created_at
-        ->paginate(10);
-     
+        ->paginate(1);
         return view('invoices.ref.viewInvoice', compact('invoices')); 
     }
 
@@ -188,40 +187,40 @@ foreach ($selectedProducts as $productData) {
 
         return view('invoices.ref.create', compact('shops', 'user', 'products','warehouse'));
     }
-
     public function storeInvoice(Request $request)
     {
-     
+      
         // Validate the request
         $validatedData = $request->validate([
             'shop_id' => 'required|exists:shops,id',
             'selected_products' => 'required|json', // Ensure it's valid JSON
             'counts' => 'required|array', // Ensure counts is an array
         ]);
+    
         try {
             DB::beginTransaction(); // Start transaction
-        
-            $invoiceNumber = 'INV-' . date('Ymd') . '-' . Str::random(6);
+    
+          
             $dueDate = Carbon::today()->addDays(30);
-        
+    
             // Get the selected products and counts from the request
             $selectedProducts = json_decode($request->input('selected_products'), true);
             $counts = $request->input('counts', []);
-        
+    
             if (!$selectedProducts || !is_array($selectedProducts)) {
                 throw new \Exception('Invalid product data.');
             }
-        
+    
             // Group the selected products by warehouse_id
             $productsByWarehouse = [];
             foreach ($selectedProducts as $product) {
-               
                 $warehouseId = $product['warehouse_id'];
                 $productsByWarehouse[$warehouseId][] = $product;
             }
-      
+    
             // Loop through each warehouse and create a separate invoice for it
             foreach ($productsByWarehouse as $warehouseId => $products) {
+                $invoiceNumber = 'INV-' . date('Ymd') . '-' . Str::random(6);
                 // Create invoice for this warehouse
                 $invoice = Invoice::create([
                     'shop_id' => $request->shop_id,
@@ -231,44 +230,45 @@ foreach ($selectedProducts as $productData) {
                     'paid_amount' => 0,
                     'paid_status' => 0,
                     'due_date' => $dueDate,
-                    'invoice_date' => Carbon::today(),  
-                     'warehouse_id' => $warehouseId,
+                    'invoice_date' => Carbon::today(),
+                    'warehouse_id' => $warehouseId,
                     'description' => 'pending',
-              
                 ]);
-        
+    
                 // Assign product counts for this warehouse
-                $products = array_map(function ($product) use ($counts) {
+                foreach ($products as &$product) { 
                     $productId = $product['id'];
                     $product['count'] = $counts[$productId] ?? 0;
-                    return $product;
-                }, $products);
-       
-                // Insert invoice products for this warehouse
+                }
+    
+                // Insert invoice products and update stock for this warehouse
                 foreach ($products as $productData) {
+                    $productId = $productData['id']; // ✅ Define $productId here
+    
                     $total = $productData['count'] * $productData['amount'];
-        
+    
                     $invoice->invoiceProducts()->create([
-                        'product_id' => $productData['id'],
+                        'product_id' => $productId,
                         'quantity' => $productData['count'],
                         'price' => $productData['amount'],
                         'total' => $total,
                     ]);
-        
-                  
-                        // Decrement the stock for the product in the correct warehouse
-                   
+    
+                    // Decrement the stock for the product in the correct warehouse
+                    ProductWarehouse::where('product_id', $productId)
+                        ->where('warehouse_id', $warehouseId)
+                        ->decrement('stock', $productData['count']);
                 }
             }
-        
+    
             DB::commit(); // Commit transaction if everything is successful
-        
+    
             return redirect()->route('refinvoice.index')->with('success', 'Invoices added successfully!');
         } catch (\Exception $e) {
             dd($e);
             DB::rollBack(); // Rollback transaction in case of error
             return redirect()->route('refinvoice.index')->with('error', 'Failed to add invoice: ' . $e->getMessage());
         }
-        
     }
+    
 }

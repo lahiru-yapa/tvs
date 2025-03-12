@@ -36,8 +36,8 @@
 
                                             <div class="input-field col s4">
                                                 <select name="warehouse_id">
+                                                <option value="" disabled selected>Select Warehouse</option>
                                                     @foreach ($warehouses as $warehouse)
-                                                    <option value="" disabled selected>Select Warehouse</option>
                                                     <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -92,10 +92,7 @@
                 <input type="number" name="items[0][quantity]" class="validate" required>
                 <label>Quantity</label>
             </div>
-            <div class="input-field col s2">
-                <input type="number" name="items[0][unit_price]" class="validate" required>
-                <label>Unit Price</label>
-            </div>
+           
             <div class="input-field col s2">
                 <input type="text" name="items[0][warranty_period]" class="validate">
                 <label>Warranty Period</label>

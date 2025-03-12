@@ -54,7 +54,7 @@
                                                     <th>Sku</th>
                                                     <th>Description</th>
                                                     <th>Price</th>
-                                                    <th>Stock</th>
+                                                    <th>Sell price</th>
                                                     <th>Category</th>
                                                     <th>Edit</th>
                                                     <th>View</th>
@@ -69,7 +69,7 @@
                                                     <td>{{$product->sku}}</td>
                                                     <td>{{$product->description}}</td>
                                                     <td>{{$product->price}}</td>
-                                                    <td>{{$product->stock}}</td>
+                                                    <td>{{$product->sell_price}}</td>
                                                     <td>{{$product->category}}</td>
                                                     <td>
                                                     <a href="{{ route('product.edit', $product->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>

@@ -36,5 +36,10 @@ class Product extends Model
         return $this->hasMany(GRNItem::class, 'product_id');
     }
 
-
+    public function warehouses()
+    {
+        return $this->belongsToMany(Warehouse::class, 'product_warehouse')
+                    ->withPivot('stock')
+                    ->withTimestamps();
+    }
 }
